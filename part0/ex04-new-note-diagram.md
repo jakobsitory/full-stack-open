@@ -28,7 +28,7 @@ sequenceDiagram
 
     Note right of browser: The browser executes the callback function that renders the notes
 
-    Note right of browser: The browser creates a POST request with the payload note=new+note
+    Note right of browser: The browser creates a POST request with the payload [note=new+note]
 
 	browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
 	activate server
