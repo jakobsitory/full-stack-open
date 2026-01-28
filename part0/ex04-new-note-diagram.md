@@ -4,12 +4,12 @@ sequenceDiagram
     participant browser
     participant server
 
-	Note right of browser: The initial pageload of the SPA was successfull
-    Note right of browser: The browser creates a POST request with the payload [note=new+note]
+	Note left of browser: The initial pageload was successfull
+    Note left of browser: The browser creates a POST request with the payload [note=new+note]
 
 	browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
 	activate server
-    Note left of server: The server creates a new element in the list of notes, based on the cliens request's payload
+    Note right of server: The server creates a new element in the list of notes, based on the client request's payload
 	server-->>browser: URL redirect to https://studies.cs.helsinki.fi/exampleapp/notes
 	deactivate server
 
@@ -28,12 +28,12 @@ sequenceDiagram
     server-->>browser: the JavaScript file
     deactivate server
 
-    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+    Note left of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
 
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate server
     server-->>browser: [{ "0.6 new note", date: "2026-01-28T00:12:46.543Z" }, ... ]
     deactivate server
 
-    Note right of browser: The browser executes the callback function that renders the notes
+    Note left of browser: The browser executes the callback function that renders the notes
 ```
