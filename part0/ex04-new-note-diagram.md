@@ -33,6 +33,7 @@ sequenceDiagram
 	activate server
 	server-->>browser redirect https://studies.cs.helsinki.fi/exampleapp/notes
 	deactivate server
+	
     Note right of server: The server creates a new element in the list of notes, based on the cliens request's content
 	
 
