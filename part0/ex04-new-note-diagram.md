@@ -9,7 +9,7 @@ sequenceDiagram
 
 	browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
 	activate server
-    Note right of server: The server creates a new element in the list of notes, based on the client request's payload
+    Note right of server: The server creates a new element in the list of notes, <br/>based on the client request's payload
 	server-->>browser: URL redirect to https://studies.cs.helsinki.fi/exampleapp/notes
 	deactivate server
 
