@@ -10,4 +10,7 @@ sequenceDiagram
     activate server
     server-->>browser: [{ content: "0.6 new note", date: "2026-01-28T00:12:46.543Z" }, ... ]
     deactivate server
+
+	Note left of browser: The browser executes the callback function that renders the notes
+
 ```
