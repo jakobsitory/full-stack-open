@@ -14,15 +14,42 @@ const Feedback = ({ good, setGood, neutral, setNeutral, bad, setBad}) => {
 }
 
 const Statistics = ({good, neutral, bad}) => {
+
+	const average = (good - bad) / (good + neutral + bad);
+	const positivePercentage = (good / (good + neutral + bad)) * 100;
+	const total = good + neutral + bad;
 	
 	return (
 		<>
 			<h1>statistics</h1>
-			<p>
-				good {good}<br/>
-				neutral	{neutral}<br/>
-				bad		{bad}
-			</p>
+			<table>
+				<tr>
+					<td>good</td>
+					<td><b>{good}</b></td>
+
+				</tr>
+				<tr>
+					<td>neutral</td>
+					<td><b>{neutral}</b></td>
+				</tr>
+				<tr>
+					<td>bad</td>
+					<td><b>{bad}</b></td>
+				</tr>
+				<tr><td></td></tr>
+				<tr>
+					<td>total</td>
+					<td><b>{total}</b></td>
+				</tr>
+				<tr>
+					<td>average</td>
+					<td><b>{average}</b></td>
+				</tr>
+				<tr>
+					<td>positive</td>
+					<td><b>{positivePercentage}%</b></td>
+				</tr>
+			</table>
 		</>
 	)
 }
@@ -39,7 +66,10 @@ const App = () => {
 				good={good} setGood={setGood}
 				neutral={neutral} setNeutral={setNeutral}
 				bad={bad} setBad={setBad}/>
-			<Statistics good={good} neutral={neutral} bad={bad}/>
+			<Statistics 
+				good={good} 
+				neutral={neutral} 
+				bad={bad}/>
 		</div>
 	)
 }
