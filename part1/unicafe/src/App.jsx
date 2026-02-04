@@ -15,6 +15,14 @@ const Feedback = ({ good, setGood, neutral, setNeutral, bad, setBad}) => {
 
 const Statistics = ({good, neutral, bad}) => {
 
+	if (!good && !neutral && !bad)
+		return (
+			<>
+				<h1>statistics</h1>
+				<p>No feedback given</p>
+			</>
+		)
+
 	const average = (good - bad) / (good + neutral + bad);
 	const positivePercentage = (good / (good + neutral + bad)) * 100;
 	const total = good + neutral + bad;
@@ -23,32 +31,35 @@ const Statistics = ({good, neutral, bad}) => {
 		<>
 			<h1>statistics</h1>
 			<table>
-				<tr>
-					<td>good</td>
-					<td><b>{good}</b></td>
+				<tbody>
+					<tr>
+						<td>good</td>
+						<td><b>{good}</b></td>
 
-				</tr>
-				<tr>
-					<td>neutral</td>
-					<td><b>{neutral}</b></td>
-				</tr>
-				<tr>
-					<td>bad</td>
-					<td><b>{bad}</b></td>
-				</tr>
-				<tr><td></td></tr>
-				<tr>
-					<td>total</td>
-					<td><b>{total}</b></td>
-				</tr>
-				<tr>
-					<td>average</td>
-					<td><b>{average}</b></td>
-				</tr>
-				<tr>
-					<td>positive</td>
-					<td><b>{positivePercentage}%</b></td>
-				</tr>
+					</tr>
+					<tr>
+						<td>neutral</td>
+						<td><b>{neutral}</b></td>
+					</tr>
+					<tr>
+						<td>bad</td>
+						<td><b>{bad}</b></td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td>total</td>
+						<td><b>{total}</b></td>
+					</tr>
+					<tr>
+						<td>average</td>
+						<td><b>{average}</b></td>
+					</tr>
+					<tr>
+						<td>positive</td>
+						<td><b>{positivePercentage}%</b></td>
+					</tr>
+				</tfoot>
 			</table>
 		</>
 	)
