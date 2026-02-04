@@ -5,8 +5,8 @@ const Content = (props) => {
 	// console.log(props.parts[0])
 	return (
 		<div>
-			{props.parts.map((part, index) => 
-				<Part key={index} part={part}/>
+			{props.parts.map((part) => 
+				<Part key={part.id} part={part}/>
 			)}
 		</div>
  	)
