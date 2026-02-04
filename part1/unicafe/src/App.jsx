@@ -1,14 +1,30 @@
 import { useState } from 'react'
 
+const Button = ({text, onClick}) => {
+
+	return (
+		<button onClick={() => onClick()}>{text}</button>
+	)
+}
+
+const StatisticsLine = ({text, value}) => {
+
+	return (
+		<tr>
+			<td>{text}</td>
+			<td><b>{value}</b></td>
+		</tr>
+	)
+}
 
 const Feedback = ({ good, setGood, neutral, setNeutral, bad, setBad}) => {
 	
 	return (
 		<>
 			<h1>give feedback</h1>
-			<button onClick={() => setGood(good + 1)}>good</button>
-			<button onClick={() => setNeutral(neutral + 1)}>neutral</button>
-			<button onClick={() => setBad(bad + 1)}>bad</button>
+			<Button text='good' onClick={() => setGood(good + 1)}>good</Button>
+			<Button text='neutral' onClick={() => setNeutral(neutral + 1)}>good</Button>
+			<Button text='bad' onClick={() => setBad(bad + 1)}>good</Button>
 		</>
 	)
 }
@@ -32,33 +48,14 @@ const Statistics = ({good, neutral, bad}) => {
 			<h1>statistics</h1>
 			<table>
 				<tbody>
-					<tr>
-						<td>good</td>
-						<td><b>{good}</b></td>
-
-					</tr>
-					<tr>
-						<td>neutral</td>
-						<td><b>{neutral}</b></td>
-					</tr>
-					<tr>
-						<td>bad</td>
-						<td><b>{bad}</b></td>
-					</tr>
+					<StatisticsLine text='good' value={good}></StatisticsLine>
+					<StatisticsLine text='neutral' value={neutral}></StatisticsLine>
+					<StatisticsLine text='bad' value={bad}></StatisticsLine>
 				</tbody>
 				<tfoot>
-					<tr>
-						<td>total</td>
-						<td><b>{total}</b></td>
-					</tr>
-					<tr>
-						<td>average</td>
-						<td><b>{average}</b></td>
-					</tr>
-					<tr>
-						<td>positive</td>
-						<td><b>{positivePercentage}%</b></td>
-					</tr>
+					<StatisticsLine text='total' value={total}></StatisticsLine>
+					<StatisticsLine text='average' value={average}></StatisticsLine>
+					<StatisticsLine text='positive' value={positivePercentage + '%'}></StatisticsLine>
 				</tfoot>
 			</table>
 		</>
@@ -66,7 +63,6 @@ const Statistics = ({good, neutral, bad}) => {
 }
 
 const App = () => {
-	// save clicks of each button to its own state
 	const [good, setGood] = useState(0)
 	const [neutral, setNeutral] = useState(0)
 	const [bad, setBad] = useState(0)
