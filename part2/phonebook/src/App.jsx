@@ -17,33 +17,35 @@ const AddContact = (props) => {
 	const addContactToPersons = (event) => {
 		event.preventDefault()
 
+		if (props.NewName === ''){
+			console.log('Contact needs a name')
+		}
+
 		const contactObject = {
 			name: props.newName,
-			id: String(props.persons.length +1)
+			id: String(props.persons.length)
 		}
 
 		props.setPersons(props.persons.concat(contactObject))
 		props.setNewName('')
+
 	}
 	
 	const handleInputChange = (event) => {
-		console.log(event.target.value)
+		// console.log(event.target.value)
 		props.setNewName(event.target.value)
 	}
 
 	return (
 		<form onSubmit={addContactToPersons}>
 			<div>
-			name: <input
+			<input
 					value={props.newName}
 					placeholder='John Doe'
 					onChange={handleInputChange}/>
 			</div>
 			<div>
-			<button 
-				type="submit"
-				>
-					add</button>
+			<button type="submit" disabled={!props.newName}>add</button>
 			</div>
       	</form>
 	)
@@ -60,9 +62,13 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      <AddContact newName={newName} setNewName={setNewName} persons={persons} setPersons={setPersons}/>
-	  <Numbers persons={persons}/>
+		<h2>Phonebook</h2>
+		<AddContact 
+	  		newName={newName}
+			setNewName={setNewName}
+			persons={persons}
+			setPersons={setPersons}/>
+	  	<Numbers persons={persons}/>
     </div>
   )
 }
