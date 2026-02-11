@@ -18,18 +18,21 @@ const AddContact = (props) => {
 		event.preventDefault()
 
 		
-		if (props.persons.find((contact) => contact.name === props.newName)){
+		if (props.persons.find((contact) => contact.name === props.newContact.name)){
 			alert(`${props.newName} is already in the phonebook.\nPlease choose another name`);
 			return ;
 		}
 
 		const contactObject = {
-			name: props.newName,
-			id: String(props.persons.length)
+			// name: props.newName,
+			name: props.newContact.name,
+			phone: props.newContact.phone,
+			id: (props.persons.length + 1)
 		}
 
 		props.setPersons(props.persons.concat(contactObject))
-		props.setNewName('')
+		// props.setNewName('')
+		props.setNewContact({name: '', phone: ''})
 
 	}
 	
@@ -37,42 +40,75 @@ const AddContact = (props) => {
 		// console.log(event.target.value)
 		props.setNewName(event.target.value)
 	}
-
+	
+	const handleNameInputChange = (event) => {
+		// console.log(event.target.value)
+		// props.setNewContact({name: event.target.value})
+		props.setNewContact(prev => ({ ...prev, name: event.target.value}))
+	}
+	
+	const handlePhoneInputChange = (event) => {
+		// console.log(event.target.value)
+		// props.setNewContact({phone: event.target.value})
+		props.setNewContact(prev => ({ ...prev, phone: event.target.value}))
+	}
+	
 	return (
 		<form onSubmit={addContactToPersons}>
+			{/* <div>
+				<input
+						value={props.newName}
+						placeholder='John Doe'
+						onChange={handleInputChange}/>
+			</div> */}
 			<div>
-			<input
-					value={props.newName}
-					placeholder='John Doe'
-					onChange={handleInputChange}/>
+				<input
+						value={props.newContact.name}
+						placeholder='John Doe'
+						// onChange={handleNameInputChange}/>
+						onChange={handleNameInputChange}/>
 			</div>
 			<div>
-			<button type="submit" disabled={!props.newName}>add</button>
+				<input
+						value={props.newContact.phone}
+						placeholder='0049 123 4567890'
+						onChange={handlePhoneInputChange}/>
+			</div>
+			<div>
+				{/* <button type="submit" disabled={!props.newName}>add</button> */}
+				<button type="submit" disabled={!props.newContact.name}>add</button>
 			</div>
       	</form>
 	)
 }
 
 const App = () => {
-  const [persons, setPersons] = useState([
-	{ 	
-		name: 'Arto Hellas', 
-		id: '0',
-	}
-  ]) 
-  const [newName, setNewName] = useState('')
+	const [persons, setPersons] = useState([
+		{ 	
+			name: 'Arto Hellas',
+			phone: '0043 987 6543210',
+			id: 1,
+		}
+	]) 
+	// const [newName, setNewName] = useState('')
+	const [newContact, setNewContact] = useState({ 	
+		name: '',
+		phone: '',
+	})
 
-  return (
-    <div>
-		<h2>Phonebook</h2>
-		<AddContact 
-	  		newName={newName}
-			setNewName={setNewName}
-			persons={persons}
-			setPersons={setPersons}/>
-	  	<Numbers persons={persons}/>
-    </div>
-  )
+	return (
+		<div>
+			<h2>Phonebook</h2>
+			<AddContact 
+				// newName={newName}
+				// setNewName={setNewName}
+				newContact={newContact}
+				setNewContact={setNewContact}
+				persons={persons}
+				setPersons={setPersons}/>
+			<Numbers persons={persons}/>
+		</div>
+	)
 }
 
 export default App
