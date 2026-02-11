@@ -1,11 +1,8 @@
 const Contacts = (props) => {
-
-	// if (props.filter) {
-	const filteredPersons = props.persons.filter((person) => person.name.includes(props.filter))
-	// props.filter ?? const = filteredPersons.filter(); :
-	// }
-
-
+		
+	const filteredPersons = props.filter 
+		? props.persons.filter((person) => person.name.toLowerCase().includes(props.filter.toLowerCase())) 
+		: props.persons
 
 	return (
 		<>

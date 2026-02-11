@@ -4,8 +4,8 @@ const AddContact = (props) => {
 		event.preventDefault()
 
 		
-		if (props.persons.find((contact) => contact.name === props.newContact.name)){
-			alert(`${props.newName} is already in the phonebook.\nPlease choose another name`);
+		if (props.persons.find((contact) => contact.name.toLowerCase() === props.newContact.name.toLowerCase())){
+			alert(`${props.newContact.name} is already in the phonebook.\nPlease choose another name`);
 			return ;
 		}
 
@@ -35,6 +35,7 @@ const AddContact = (props) => {
 				<label>Name:</label>
 				<input
 						value={props.newContact.name}
+						type='text'
 						placeholder='John Doe'
 						onChange={handleNameInputChange}/>
 			</div>
@@ -42,6 +43,7 @@ const AddContact = (props) => {
 				<label>Phone:</label>
 				<input
 						value={props.newContact.phone}
+						type='tel'
 						placeholder='0049 123 4567890'
 						onChange={handlePhoneInputChange}/>
 			</div>
