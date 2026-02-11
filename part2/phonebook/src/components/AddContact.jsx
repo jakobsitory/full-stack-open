@@ -11,12 +11,12 @@ const AddContact = (props) => {
 
 		const contactObject = {
 			name: props.newContact.name,
-			phone: props.newContact.phone,
+			number: props.newContact.number,
 			id: (props.persons.length + 1)
 		}
 
 		props.setPersons(props.persons.concat(contactObject))
-		props.setNewContact({name: '', phone: ''})
+		props.setNewContact({name: '', number: ''})
 
 	}
 	
@@ -25,7 +25,7 @@ const AddContact = (props) => {
 	}
 	
 	const handlePhoneInputChange = (event) => {
-		props.setNewContact(prev => ({ ...prev, phone: event.target.value}))
+		props.setNewContact(prev => ({ ...prev, number: event.target.value}))
 	}
 	
 	return (
@@ -42,7 +42,7 @@ const AddContact = (props) => {
 			<div>
 				<label>Phone:</label>
 				<input
-						value={props.newContact.phone}
+						value={props.newContact.number}
 						type='tel'
 						placeholder='0049 123 4567890'
 						onChange={handlePhoneInputChange}/>

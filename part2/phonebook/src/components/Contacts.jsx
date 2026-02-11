@@ -20,7 +20,7 @@ const Contacts = (props) => {
 						? filteredPersons.map(person => 
 							<tr key={person.id}>
 								<td>{person.name}</td>
-								<td>{person.phone}</td>
+								<td>{person.number}</td>
 							</tr>
 							)
 						: <tr><td><i>No contacts to show</i></td></tr>
