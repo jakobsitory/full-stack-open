@@ -7,7 +7,7 @@ const Contacts = (props) => {
 		: props.persons
 
 	const handleContactDelete = (person) => {
-		if (!confirm(`Do you want to delete '${person.name}'`)) return;
+		if (!confirm(`Do you want to delete contact '${person.name}'`)) return;
 		personServices
 			.deleteContact(person.id)
 			.then(response => 

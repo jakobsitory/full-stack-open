@@ -1,22 +1,32 @@
-import personService from '../services/persons'
+import personServices from '../services/persons'
 
 const AddContact = (props) => {
 
 	const addContactToPersons = (event) => {
 		event.preventDefault()
 
-		
-		if (props.persons.find((contact) => contact.name.toLowerCase() === props.newContact.name.toLowerCase())){
-			alert(`${props.newContact.name} is already in the phonebook.\nPlease choose another name`);
-			return ;
-		}
+		const duplicatedContact = props.persons.find((contact) => contact.name.toLowerCase() === props.newContact.name.toLowerCase())
 
 		const contactObject = {
 			name: props.newContact.name,
 			number: props.newContact.number
 		}
+		
+		if (duplicatedContact) {
+			if (confirm(`${props.newContact.name} is already in the phonebook.\nReplace the old number with a new one?`))
+				personServices
+					.update(duplicatedContact.id, contactObject)
+					.then(response => {
+						props.setPersons(props.persons.map(person => person.id === response.id
+							? response
+							: person
+						))
+						props.setNewContact({name: '', number: ''})
+					})
+			return
+		}
 
-		personService
+		personServices
 			.create(contactObject)
 			.then(response => {
 				props.setPersons(props.persons.concat(response))
