@@ -17,8 +17,10 @@ const AddContact = (props) => {
 	const addContactToPersons = (event) => {
 		event.preventDefault()
 
-		if (props.NewName === ''){
-			console.log('Contact needs a name')
+		
+		if (props.persons.find((contact) => contact.name === props.newName)){
+			alert(`${props.newName} is already in the phonebook.\nPlease choose another name`);
+			return ;
 		}
 
 		const contactObject = {
