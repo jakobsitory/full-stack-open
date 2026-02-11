@@ -1,3 +1,5 @@
+import personService from '../services/persons'
+
 const AddContact = (props) => {
 
 	const addContactToPersons = (event) => {
@@ -11,12 +13,15 @@ const AddContact = (props) => {
 
 		const contactObject = {
 			name: props.newContact.name,
-			number: props.newContact.number,
-			id: (props.persons.length + 1)
+			number: props.newContact.number
 		}
 
-		props.setPersons(props.persons.concat(contactObject))
-		props.setNewContact({name: '', number: ''})
+		personService
+			.create(contactObject)
+			.then(response => {
+				props.setPersons(props.persons.concat(response))
+				props.setNewContact({name: '', number: ''})
+			})
 
 	}
 	

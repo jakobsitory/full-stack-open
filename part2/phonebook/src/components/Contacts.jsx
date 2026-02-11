@@ -16,7 +16,7 @@ const Contacts = (props) => {
 				</thead>
 				<tbody>
 					{
-						(filteredPersons.length > 0)
+						(filteredPersons && filteredPersons.length > 0)
 						? filteredPersons.map(person => 
 							<tr key={person.id}>
 								<td>{person.name}</td>
