@@ -1,8 +1,21 @@
+import personServices from '../services/persons'
+
 const Contacts = (props) => {
 		
 	const filteredPersons = props.filter 
 		? props.persons.filter((person) => person.name.toLowerCase().includes(props.filter.toLowerCase())) 
 		: props.persons
+
+	const handleContactDelete = (person) => {
+		if (!confirm(`Do you want to delete '${person.name}'`)) return;
+		personServices
+			.deleteContact(person.id)
+			.then(response => 
+				props.setPersons(props.persons.filter((person) => person.id !== response.id))
+			)
+		
+	}
+
 
 	return (
 		<>
@@ -21,6 +34,7 @@ const Contacts = (props) => {
 							<tr key={person.id}>
 								<td>{person.name}</td>
 								<td>{person.number}</td>
+								<td><button onClick={() => handleContactDelete(person)}>delete</button></td>
 							</tr>
 							)
 						: <tr><td><i>No contacts to show</i></td></tr>

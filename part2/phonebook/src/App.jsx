@@ -35,7 +35,8 @@ const App = () => {
 				setPersons={setPersons}/>
 			<Contacts 
 				persons={persons} 
-				filter={filter}/>
+				filter={filter}
+				setPersons={setPersons}/>
 		</div>
 	)
 }
