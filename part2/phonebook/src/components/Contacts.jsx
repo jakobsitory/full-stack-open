@@ -7,7 +7,6 @@ const Contacts = (props) => {
 	return (
 		<>
 			<h2>Numbers</h2>
-			<p>filtering for {props.filter}</p>
 			<table>
 				<thead>
 						<tr>
@@ -16,12 +15,16 @@ const Contacts = (props) => {
 						</tr>
 				</thead>
 				<tbody>
-					{filteredPersons.map(person => 
-						<tr key={person.id}>
-							<td>{person.name}</td>
-							<td>{person.phone}</td>
-						</tr>
-					)}
+					{
+						(filteredPersons.length > 0)
+						? filteredPersons.map(person => 
+							<tr key={person.id}>
+								<td>{person.name}</td>
+								<td>{person.phone}</td>
+							</tr>
+							)
+						: <tr><td><i>No contacts to show</i></td></tr>
+					}
 				</tbody>
 				<tfoot />
 			</table>
