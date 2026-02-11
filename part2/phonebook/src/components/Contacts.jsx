@@ -10,9 +10,14 @@ const Contacts = (props) => {
 		if (!confirm(`Do you want to delete contact '${person.name}'`)) return;
 		personServices
 			.deleteContact(person.id)
-			.then(response => 
+			.then(response => {
 				props.setPersons(props.persons.filter((person) => person.id !== response.id))
-			)
+				props.setNotificationMessage(props => ({ ...props.notificationMessage, 
+						show: true, 
+						type: 'success', 
+						message: `successfully deleted '${response.name}'`}))
+				setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
+			})
 		
 	}
 

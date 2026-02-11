@@ -4,6 +4,7 @@ import personService from './services/persons'
 import FilterContacts from './components/FilterContacts'
 import Contacts from './components/Contacts'
 import AddContact from './components/AddContact'
+import Notification from './components/Notification'
 
 const App = () => {
 	const [persons, setPersons] = useState([]) 
@@ -12,6 +13,11 @@ const App = () => {
 		number: '',
 	})
 	const [filter, setFilter] = useState('')
+	const [notificationMessage, setNotificationMessage] = useState({
+		show: false,
+		type: '',
+		message: 'INITIAL NOTIFICATION',
+	})
 
 	useEffect(() => {
 		personService
@@ -25,6 +31,7 @@ const App = () => {
 	return (
 		<div>
 			<h1>Phonebook</h1>
+			<Notification content={notificationMessage}/>
 			<FilterContacts 
 				filter={filter}
 				setFilter={setFilter}/>
@@ -32,11 +39,13 @@ const App = () => {
 				newContact={newContact}
 				setNewContact={setNewContact}
 				persons={persons}
-				setPersons={setPersons}/>
+				setPersons={setPersons}
+				setNotificationMessage={setNotificationMessage}/>
 			<Contacts 
 				persons={persons} 
 				filter={filter}
-				setPersons={setPersons}/>
+				setPersons={setPersons}
+				setNotificationMessage={setNotificationMessage}/>
 		</div>
 	)
 }

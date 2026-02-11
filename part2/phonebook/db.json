@@ -2,13 +2,8 @@
   "persons": [
     {
       "name": "test",
-      "number": "1234",
+      "number": "",
       "id": "c19d"
-    },
-    {
-      "name": "test2",
-      "number": "1234",
-      "id": "7616"
     },
     {
       "id": "0443",
@@ -18,6 +13,16 @@
     {
       "id": "bd33",
       "name": "test",
+      "number": ""
+    },
+    {
+      "id": "c6ba",
+      "name": "true",
+      "number": ""
+    },
+    {
+      "id": "0351",
+      "name": "new one",
       "number": ""
     }
   ]

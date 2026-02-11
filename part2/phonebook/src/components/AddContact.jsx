@@ -22,6 +22,11 @@ const AddContact = (props) => {
 							: person
 						))
 						props.setNewContact({name: '', number: ''})
+						props.setNotificationMessage(props => ({ ...props.notificationMessage, 
+								show: true, 
+								type: 'success', 
+								message: `successfully updated '${response.name}'`}))
+						setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
 					})
 			return
 		}
@@ -31,6 +36,11 @@ const AddContact = (props) => {
 			.then(response => {
 				props.setPersons(props.persons.concat(response))
 				props.setNewContact({name: '', number: ''})
+						props.setNotificationMessage(props => ({ ...props.notificationMessage, 
+								show: true, 
+								type: 'success', 
+								message: `successfully created '${response.name}'`}))
+						setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
 			})
 
 	}
