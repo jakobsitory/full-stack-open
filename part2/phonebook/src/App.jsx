@@ -4,10 +4,27 @@ const Numbers = (props) => {
 	return (
 		<>
 			<h2>Numbers</h2>
-			{props.persons.map(person => 
+			{/* {props.persons.map(person => 
 				<li key={person.id}>
 					{person.name}
-				</li>)}
+				</li>)} */}
+			<table>
+				<thead>
+						<tr>
+							<td><b>Name</b></td>
+							<td><b>Phone</b></td>
+						</tr>
+				</thead>
+				<tbody>
+					{props.persons.map(person => 
+						<tr key={person.id}>
+							<td>{person.name}</td>
+							<td>{person.phone}</td>
+						</tr>
+					)}
+				</tbody>
+				<tfoot />
+			</table>
 		</>
 	)
 }
