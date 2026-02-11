@@ -1,13 +1,37 @@
 import { useState } from 'react'
 
+const FilterContacts = (props) => {
+
+	const handleInputChange = (event) => {
+		props.setFilter(event.target.value)
+		// console.log('set filter to: ', event.target.value)
+	}
+
+	return (
+		<form>
+			<div>
+				<label>Filter for:</label>
+				<input
+						// value={props.newContact.name}
+						placeholder='John Doe'
+						onChange={handleInputChange}/>
+			</div>
+			{/* <div>
+				<button type="submit" disabled={!props.newContact.name}>add</button>
+			</div> */}
+      	</form>
+	)
+}
+
 const Numbers = (props) => {
+
+	if (props.filter) {
+
+	}
+
 	return (
 		<>
 			<h2>Numbers</h2>
-			{/* {props.persons.map(person => 
-				<li key={person.id}>
-					{person.name}
-				</li>)} */}
 			<table>
 				<thead>
 						<tr>
@@ -41,58 +65,42 @@ const AddContact = (props) => {
 		}
 
 		const contactObject = {
-			// name: props.newName,
 			name: props.newContact.name,
 			phone: props.newContact.phone,
 			id: (props.persons.length + 1)
 		}
 
 		props.setPersons(props.persons.concat(contactObject))
-		// props.setNewName('')
 		props.setNewContact({name: '', phone: ''})
 
 	}
 	
-	const handleInputChange = (event) => {
-		// console.log(event.target.value)
-		props.setNewName(event.target.value)
-	}
-	
 	const handleNameInputChange = (event) => {
-		// console.log(event.target.value)
-		// props.setNewContact({name: event.target.value})
 		props.setNewContact(prev => ({ ...prev, name: event.target.value}))
 	}
 	
 	const handlePhoneInputChange = (event) => {
-		// console.log(event.target.value)
-		// props.setNewContact({phone: event.target.value})
 		props.setNewContact(prev => ({ ...prev, phone: event.target.value}))
 	}
 	
 	return (
 		<form onSubmit={addContactToPersons}>
-			{/* <div>
-				<input
-						value={props.newName}
-						placeholder='John Doe'
-						onChange={handleInputChange}/>
-			</div> */}
+			<h2>Add new contact</h2>
 			<div>
+				<label>Name:</label>
 				<input
 						value={props.newContact.name}
 						placeholder='John Doe'
-						// onChange={handleNameInputChange}/>
 						onChange={handleNameInputChange}/>
 			</div>
 			<div>
+				<label>Phone:</label>
 				<input
 						value={props.newContact.phone}
 						placeholder='0049 123 4567890'
 						onChange={handlePhoneInputChange}/>
 			</div>
 			<div>
-				{/* <button type="submit" disabled={!props.newName}>add</button> */}
 				<button type="submit" disabled={!props.newContact.name}>add</button>
 			</div>
       	</form>
@@ -107,23 +115,26 @@ const App = () => {
 			id: 1,
 		}
 	]) 
-	// const [newName, setNewName] = useState('')
 	const [newContact, setNewContact] = useState({ 	
 		name: '',
 		phone: '',
 	})
+	const [filter, setFilter] = useState('')
 
 	return (
 		<div>
-			<h2>Phonebook</h2>
-			<AddContact 
-				// newName={newName}
-				// setNewName={setNewName}
+			<h1>Phonebook</h1>
+			<FilterContacts 
+				filter={filter}
+				setFilter={setFilter}/>
+			<AddContact
 				newContact={newContact}
 				setNewContact={setNewContact}
 				persons={persons}
 				setPersons={setPersons}/>
-			<Numbers persons={persons}/>
+			<Numbers 
+				persons={persons} 
+				filter={filter}/>
 		</div>
 	)
 }
