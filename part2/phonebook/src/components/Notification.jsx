@@ -8,15 +8,10 @@ const Notification = ({ content }) => {
 		marginBottom: '10px',
 	}
 
-	console.log(content)
-
 	if (content.show === false) {
-		console.log("won't show")
 		return null
 	}
 
-
-	console.log('rendering this')
 	return (
 		<div style={notificationStyle} className={content.type}>
 			{content.message}

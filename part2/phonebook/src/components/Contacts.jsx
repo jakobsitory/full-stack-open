@@ -18,6 +18,13 @@ const Contacts = (props) => {
 						message: `successfully deleted '${response.name}'`}))
 				setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
 			})
+			.catch((error) => {
+				props.setNotificationMessage(props => ({ ...props.notificationMessage, 
+						show: true, 
+						type: 'error', 
+						message: `Cannot deleted '${response.name}'. The person was not found in the phonebook.`}))
+				setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
+			})
 		
 	}
 

@@ -28,6 +28,14 @@ const AddContact = (props) => {
 								message: `successfully updated '${response.name}'`}))
 						setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
 					})
+					.catch((error) => {
+						props.setNotificationMessage(props => ({ ...props.notificationMessage, 
+								show: true, 
+								type: 'error', 
+								message: `Cannot update '${duplicatedContact.name}'. The person was not found in the phonebook.`}))
+						setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
+					})
+				
 			return
 		}
 

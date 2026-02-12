@@ -6,8 +6,10 @@
 .success {
   color: green;
 }
+.info {
+  color: blue;
+}
 .notification {
-  /* color: red; */
   background: lightgrey;
   font-size: 20px;
   border-style: solid;
