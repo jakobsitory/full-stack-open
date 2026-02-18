@@ -1,11 +1,11 @@
 
 
-const CountryDetails = () => {
+const CountryDetails = ( { selectedCountry } ) => {
 
 	return (
-		<>
-			<h2>CountryDetail tbd</h2>
-		</>
+		(selectedCountry)
+			? <h2>{selectedCountry}</h2>
+			: <h2>no country selected</h2>
 	)
 }
 

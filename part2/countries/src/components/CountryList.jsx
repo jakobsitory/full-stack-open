@@ -1,11 +1,12 @@
 
-const CountryList = ({ countries, selectCountry}) => {
+const CountryList = ({ countries, setSelectedCountry, filter}) => {
 
-	const countriesPreview = countries.slice(0, 10)
+	
+	const countriesFiltered = countries.filter((country) => country.name.common.toLowerCase().includes(filter))
 
 	return (
 		<>
-			<h2>Countrylist</h2>
+			{/* <h2>Country ist</h2> */}
 			<table>
 				<thead>
 					<tr>
@@ -16,11 +17,11 @@ const CountryList = ({ countries, selectCountry}) => {
 				</thead>
 				<tbody> 
 					{
-						(countriesPreview && countriesPreview.length > 0)
-							? countriesPreview.map(country => 
+						(countriesFiltered && countriesFiltered.length > 0)
+							? countriesFiltered.slice(0, 10).map(country => 
 							<tr key={country.name.common}>
 								<td>{country.name.common}</td>
-								<td><button onClick={() => selectCountry(country.name.common)}>Show</button></td>
+								<td><button onClick={() => setSelectedCountry(country.name.common)}>Show</button></td>
 							</tr>
 							)
 						: <tr><td><i>No contacts to show</i></td></tr>

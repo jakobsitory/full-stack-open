@@ -1,10 +1,17 @@
 
 
-const CountryFilter = () => {
+const CountryFilter = ({ setFilter }) => {
+
+	const handleInputChange = (event) => {
+		setFilter(event.target.value)
+	}
 
 	return (
 		<>
-			<h2>Filter TBD</h2>
+			<label>Filter for: </label>
+			<input
+					placeholder='Country Name'
+					onChange={handleInputChange}/>
 		</>
 	)
 }

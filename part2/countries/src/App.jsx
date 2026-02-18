@@ -9,7 +9,7 @@ import countryService from './services/countryService'
 // 1. Fetch data from server ✅
 // 1.1. error & success handling 
 
-// 2. Display countries as table
+// 2. Display countries as table ✅
 
 // 3. Introduce Filter
 // 3.1. Empty state
@@ -21,7 +21,7 @@ import countryService from './services/countryService'
 function App() {
 	const [countries, setCountries] = useState([])
 	const [filter, setFilter] = useState('')
-	const [selectedCountry, setSelectedCountry] = useState('finland')
+	const [selectedCountry, setSelectedCountry] = useState('')
 	const [countryDetails, setCountryDetails] = useState([])
 
 	useEffect(() => {
@@ -32,24 +32,32 @@ function App() {
 			})
 	}, [])
 
-	useEffect(() => {
-		countryService
-			.getCountry(selectedCountry)
-			.then(response => {
-				setCountryDetails(response)
-			})
+
+	//this does not get recalled, when selectedCountry updates...
+	useEffect((selectedCountry) => {
+		selectedCountry
+			? 	countryService
+					.getCountry(selectedCountry)
+					.then(response => {
+						setCountryDetails(response)
+					})
+			: null
 	}, [])
 
   return (
     <>
       <h1>Country Wiki</h1>
 	  <p>Search for countries and gather insights on them</p>
-	  <CountryFilter/>
+	  <CountryFilter
+		setFilter={setFilter}
+		filter={filter}/>
 	  <CountryList 
 	  	countries={countries}
 		setCountries={setCountries}
-		filter={filter}/>
-	  <CountryDetails/>
+		filter={filter}
+		setSelectedCountry={setSelectedCountry}/>
+	  <CountryDetails
+	  	selectedCountry={selectedCountry}/>
     </>
   )
 }
