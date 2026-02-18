@@ -8,19 +8,23 @@ function App() {
 	const [countries, setCountries] = useState([])
 	const [filter, setFilter] = useState('')
 	const [selectedCountry, setSelectedCountry] = useState()
-	const [countryDetails, setCountryDetails] = useState([])
+	const [countryDetails, setCountryDetails] = useState(null)
 	const [fetchError, setFetchError] = useState(false)
 
 	useEffect(() => {
+
+		setFetchError(false)
+
 		countryService
 			.getAll()
 			.then(response => {
 				setCountries(response)
 			})
 			.catch(error => {
+				console.error('Failed to fetch countries:', error)
 				setFetchError(true)
 			})
-	}, [])
+	}, [setCountries])
 
 	    const countriesFiltered = countries.filter((country) =>
         country.name.common.toLowerCase().includes(filter.toLowerCase())

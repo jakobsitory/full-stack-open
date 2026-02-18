@@ -12,15 +12,18 @@ const CountryDetails = ({ selectedCountry, countryDetails, setCountryDetails }) 
             return
         }
 
+		setFetchError(false)
+
 		countryService
 			.getCountry(selectedCountry)
 			.then(response => {
 				setCountryDetails(response)
 			})
 			.catch((error) => {
+				console.error(`Failed to fetch ${selectedCountry}:`, error)
 				setFetchError(true)
 			})
-	}, [selectedCountry])
+	}, [selectedCountry, setCountryDetails])
 
 	if (fetchError)
 		return <p>There was an error when fetching the details for {selectedCountry}</p>
@@ -81,7 +84,7 @@ const CountryDetails = ({ selectedCountry, countryDetails, setCountryDetails }) 
 				</tr>
 				<tr>
 					<td><b>Population</b></td>
-					<td>{country.population} km<sup>2</sup></td>
+					<td>{country.population}</td>
 				</tr>
 				<tr>
 					<td><b>Currencies</b></td>
