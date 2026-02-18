@@ -6,8 +6,8 @@ import countryService from './services/countryService'
 
 // PLAN OF EXECTUTION:
 
-// 1. Fetch data from server
-// 1.1. error & success handling
+// 1. Fetch data from server ✅
+// 1.1. error & success handling 
 
 // 2. Display countries as table
 
@@ -45,7 +45,10 @@ function App() {
       <h1>Country Wiki</h1>
 	  <p>Search for countries and gather insights on them</p>
 	  <CountryFilter/>
-	  <CountryList/>
+	  <CountryList 
+	  	countries={countries}
+		setCountries={setCountries}
+		filter={filter}/>
 	  <CountryDetails/>
     </>
   )
