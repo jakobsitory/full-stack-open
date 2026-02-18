@@ -1,5 +1,5 @@
 
-const CountryList = ({ countriesFiltered, selectedCountry, setSelectedCountry }) => {
+const CountryList = ({ countriesFiltered, selectedCountry, filter, setSelectedCountry }) => {
 
 	if (selectedCountry)
 		return null
@@ -26,6 +26,8 @@ const CountryList = ({ countriesFiltered, selectedCountry, setSelectedCountry })
 				<tfoot />
 			</table>
 		)
+	} else if (filter === ''){
+		return null;
 	} else {
 		return <span><i>Too many matches, specify another filter</i></span>;
 	}

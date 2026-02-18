@@ -4,31 +4,21 @@ import CountryFilter from './components/CountryFilter'
 import CountryDetails from './components/CountryDetails'
 import countryService from './services/countryService'
 
-// PLAN OF EXECTUTION:
-
-// 1. Fetch data from server ✅
-// 1.1. error & success handling  ✅
-
-// 2. Display countries as table ✅
-
-// 3. Introduce Filter ✅
-// 3.1. Empty state ✅
-
-// 4. Introduce Country Page✅
-// 4.1. Introduce Errors (400 & 500) ✅
-// 4.2. use map & table for dynamic layout✅
-
 function App() {
 	const [countries, setCountries] = useState([])
 	const [filter, setFilter] = useState('')
 	const [selectedCountry, setSelectedCountry] = useState()
 	const [countryDetails, setCountryDetails] = useState([])
+	const [fetchError, setFetchError] = useState(false)
 
 	useEffect(() => {
 		countryService
 			.getAll()
 			.then(response => {
 				setCountries(response)
+			})
+			.catch(error => {
+				setFetchError(true)
 			})
 	}, [])
 
@@ -49,20 +39,24 @@ function App() {
  	return (
     <>
 		<h1>Country Wiki</h1>
-		<CountryFilter
-			setFilter={setFilter}/>
-		<br/>
-		<CountryList 
-			countriesFiltered={countriesFiltered}
-			selectedCountry={selectedCountry}
-			setSelectedCountry={setSelectedCountry}/>
-			{/* setCountries={setCountries}
-			filter={filter} */}
-		<CountryDetails
-			selectedCountry={selectedCountry}
-			countryDetails={countryDetails}
-			setCountryDetails={setCountryDetails}
-			/>
+		{fetchError
+			? <span><i>There was an error when fetching countries</i></span>
+			: <>
+				<CountryFilter
+					setFilter={setFilter}/>
+				<br/>
+				<CountryList 
+					countriesFiltered={countriesFiltered}
+					selectedCountry={selectedCountry}
+					setSelectedCountry={setSelectedCountry}
+					filter={filter}/>
+				<CountryDetails
+					selectedCountry={selectedCountry}
+					countryDetails={countryDetails}
+					setCountryDetails={setCountryDetails}
+					/>
+				</>
+		}
     </>
   )
 }
