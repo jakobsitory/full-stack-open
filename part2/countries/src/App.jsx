@@ -21,7 +21,7 @@ import countryService from './services/countryService'
 function App() {
 	const [countries, setCountries] = useState([])
 	const [filter, setFilter] = useState('')
-	const [selectedCountry, setSelectedCountry] = useState('')
+	const [selectedCountry, setSelectedCountry] = useState()
 	const [countryDetails, setCountryDetails] = useState([])
 
 	useEffect(() => {
@@ -32,33 +32,24 @@ function App() {
 			})
 	}, [])
 
-		useEffect(() => {
-	// selectedCountry
-		// ? 	countryService
-		 	countryService
-		.getCountry('switzerland')
-				.then(response => {
-					setCountryDetails(response)
-				})
-		// : null
-	}, [])
-
   return (
     <>
-      <h1>Country Wiki</h1>
-	  <p>Search for countries and gather insights on them</p>
-	  <CountryFilter
-		setFilter={setFilter}
-		filter={filter}/>
-	  <CountryList 
-	  	countries={countries}
-		setCountries={setCountries}
-		filter={filter}
-		setSelectedCountry={setSelectedCountry}/>
-	  <CountryDetails
-	  	selectedCountry={selectedCountry}
-		countryDetails={countryDetails}
-		setCountryDetails={setCountryDetails}/>
+		<h1>Country Wiki</h1>
+		<CountryFilter
+			setFilter={setFilter}
+			filter={filter}
+			setSelectedCountry={setSelectedCountry}/>
+		<br/>
+		<CountryList 
+			countries={countries}
+			setCountries={setCountries}
+			filter={filter}
+			selectedCountry={selectedCountry}
+			setSelectedCountry={setSelectedCountry}/>
+		<CountryDetails
+			selectedCountry={selectedCountry}
+			countryDetails={countryDetails}
+			setCountryDetails={setCountryDetails}/>
     </>
   )
 }
