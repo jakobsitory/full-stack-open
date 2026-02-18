@@ -32,16 +32,15 @@ function App() {
 			})
 	}, [])
 
-
-	//this does not get recalled, when selectedCountry updates...
-	useEffect((selectedCountry) => {
-		selectedCountry
-			? 	countryService
-					.getCountry(selectedCountry)
-					.then(response => {
-						setCountryDetails(response)
-					})
-			: null
+		useEffect(() => {
+	// selectedCountry
+		// ? 	countryService
+		 	countryService
+		.getCountry('finland')
+				.then(response => {
+					setCountryDetails(response)
+				})
+		// : null
 	}, [])
 
   return (
@@ -57,7 +56,9 @@ function App() {
 		filter={filter}
 		setSelectedCountry={setSelectedCountry}/>
 	  <CountryDetails
-	  	selectedCountry={selectedCountry}/>
+	  	selectedCountry={selectedCountry}
+		countryDetails={countryDetails}
+		setCountryDetails={setCountryDetails}/>
     </>
   )
 }
