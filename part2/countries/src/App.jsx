@@ -11,7 +11,7 @@ import countryService from './services/countryService'
 
 // 2. Display countries as table ✅
 
-// 3. Introduce Filter
+// 3. Introduce Filter ✅
 // 3.1. Empty state
 
 // 4. Introduce Country Page
@@ -36,7 +36,7 @@ function App() {
 	// selectedCountry
 		// ? 	countryService
 		 	countryService
-		.getCountry('finland')
+		.getCountry('switzerland')
 				.then(response => {
 					setCountryDetails(response)
 				})

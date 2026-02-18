@@ -8,28 +8,55 @@ const CountryDetails = ({ selectedCountry, countryDetails, setCountryDetails }) 
     return <h2>Loading...</h2>
   }
 
-	console.log(selectedCountry, countryDetails)
+	// console.log(selectedCountry, countryDetails)
 
 	const country = { ...countryDetails }
-	console.log('countrycopy:', country)
-	console.log('currencies:', country.currencies)
+	// console.log('countrycopy:', country)
+	// console.log('currencies:', country.currencies)
 
-		const nameOfficial = country.name.offcial
-		// const nameNative = Object.entries(country.name.native)
-		const currencies = Object.entries(country.currencies)
-		currencies.map(el => console.log('curreny:', el.name))
+		const nameOfficial = country.name.official
+		const nameNative = Object.values(country.name.nativeName)
+		const currencies = Object.values(country.currencies)
+		const languages = Object.values(country.languages)
+		const flag = country.flags
+		const coatOfArms = country.coatOfArms
+
+  		// console.log(coatOfArms)
+  		// console.log(nameNative)
+  		// console.log(languages)
+  		// console.log(currencies)
+  		// console.log(nameNative)
+  		// nameNative.map(el => console.log(el.official))
 
 	return (
 		(country.length === 0)
-			? <h2>no country selected</h2>
+			? <h2>No country is matching search term</h2>
 			: <table>
-				{/* <table> */}
 				<thead>
 					<tr>
-						<th><h2>{selectedCountry}</h2></th>
+						<th colSpan="2">
+							<h2>{nameOfficial}</h2>
+							<p> 
+								{nameNative.map(el => <span key={el.official} >{el.official} {}<br/></span>)}
+							</p>
+						</th>
 					</tr>
 				</thead>
 				<tbody>
+					<tr>
+						<td align='center'>
+							<img 
+  								width="100"
+								src={flag.png}
+								alt={flag.alt}/>
+						</td>
+						<td align='center'>
+							<img 
+  								width="100"
+								src={coatOfArms.png}
+								alt={flag.alt}/>
+						</td>
+					</tr>
 					<tr>
 						<td><b>Capital</b></td>
 						<td>{country.capital}</td>
@@ -37,8 +64,7 @@ const CountryDetails = ({ selectedCountry, countryDetails, setCountryDetails }) 
 					<tr>
 						<td><b>Official languages</b></td>
 						<td>
-							{/* {country.languages.map(lang => {lang})} */}
-
+							{languages.join(' • ')}
 						</td>
 					</tr>
 					<tr>
@@ -51,9 +77,9 @@ const CountryDetails = ({ selectedCountry, countryDetails, setCountryDetails }) 
 					</tr>
 					<tr>
 						<td><b>Currencies</b></td>
-						{/* {country.currencies.map(el => 
-								<td>{el.name}</td>
-							)} */}
+						{currencies.map(el => 
+								<td key={el.name}>{el.name} ({el.symbol})</td>
+							)}
 					</tr>
 					<tr>
 						<td></td>
