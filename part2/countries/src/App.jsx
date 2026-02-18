@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import CountryList from './components/CountryList'
 import CountryFilter from './components/CountryFilter'
 import CountryDetails from './components/CountryDetails'
+import countryService from './services/countryService'
 
 // PLAN OF EXECTUTION:
 
@@ -18,7 +19,26 @@ import CountryDetails from './components/CountryDetails'
 // 4.2. use map & table for dynamic layout
 
 function App() {
-  const [count, setCount] = useState(0)
+	const [countries, setCountries] = useState([])
+	const [filter, setFilter] = useState('')
+	const [selectedCountry, setSelectedCountry] = useState('finland')
+	const [countryDetails, setCountryDetails] = useState([])
+
+	useEffect(() => {
+		countryService
+			.getAll()
+			.then(response => {
+				setCountries(response)
+			})
+	}, [])
+
+	useEffect(() => {
+		countryService
+			.getCountry(selectedCountry)
+			.then(response => {
+				setCountryDetails(response)
+			})
+	}, [])
 
   return (
     <>
