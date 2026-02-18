@@ -1,15 +1,14 @@
 
 
-const CountryFilter = ({ setFilter, setSelectedCountry }) => {
+const CountryFilter = ({ setFilter }) => {
 
 	const handleInputChange = (event) => {
 		setFilter(event.target.value)
-		setSelectedCountry('')
 	}
 
 	return (
 		<>
-			<label>Search country: </label>
+			<label>find country: </label>
 			<input
 				placeholder='Country name'
 				onChange={handleInputChange}/>

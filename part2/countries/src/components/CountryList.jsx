@@ -1,41 +1,34 @@
 
-const CountryList = ({ countries, selectedCountry, setSelectedCountry, filter}) => {
+const CountryList = ({ countriesFiltered, selectedCountry, setSelectedCountry }) => {
 
-	// if (selectedCountry)
-	// 	return
+	if (selectedCountry)
+		return null
 
-	const countriesFiltered = countries.filter((country) => country.name.common.toLowerCase().includes(filter.toLowerCase()))
-
-	switch (countriesFiltered.length) {
-		case 0:
-			return <span><i>No country matching your query</i></span>
-		case 1:
-			setSelectedCountry(countriesFiltered[0].name.common)
-			return;
-		// case 11:
-		// default:
-		// 	console.log('case 3')
-		// 	break;
+	if (countriesFiltered.length === 0) {
+		return <span><i>No country matching your query</i></span>;
+	} else if (countriesFiltered.length < 10) {
+		return (
+			<table>
+				<thead />
+				<tbody> 
+					{
+						(countriesFiltered && countriesFiltered.length > 0)
+							? countriesFiltered.slice(0, 10).map(country => 
+								<tr key={country.name.common}>
+									<td>{country.name.common}</td>
+									<td>
+										<button onClick={() => setSelectedCountry(country.name.common)}>Show</button>
+									</td>
+								</tr>)
+							: <tr><td><i>No countries to show</i></td></tr>
+					}
+				</tbody>
+				<tfoot />
+			</table>
+		)
+	} else {
+		return <span><i>Too many matches, specify another filter</i></span>;
 	}
-
-
-	return (
-		<table>
-			<thead />
-			<tbody> 
-				{
-					(countriesFiltered && countriesFiltered.length > 0)
-						? countriesFiltered.slice(0, 10).map(country => 
-							<tr key={country.name.common}>
-								<td>{country.name.common}</td>
-								<td><button onClick={() => setSelectedCountry(country.name.common)}>Show</button></td>
-							</tr>)
-						: <tr><td><i>No countries to show</i></td></tr>
-				}
-			</tbody>
-			<tfoot />
-		</table>
-	)
 }
 
 export default CountryList

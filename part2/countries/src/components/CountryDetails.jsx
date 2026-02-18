@@ -6,15 +6,20 @@ const CountryDetails = ({ selectedCountry, countryDetails, setCountryDetails }) 
 	const [fetchError, setFetchError] = useState(false)
 
 	useEffect(() => {
-		if (selectedCountry)
-			countryService
-				.getCountry(selectedCountry)
-				.then(response => {
-					setCountryDetails(response)
-				})
-				.catch((error) => {
-					setFetchError(true)
-				})
+        if (!selectedCountry) {
+            setCountryDetails(null)
+            setFetchError(false)
+            return
+        }
+
+		countryService
+			.getCountry(selectedCountry)
+			.then(response => {
+				setCountryDetails(response)
+			})
+			.catch((error) => {
+				setFetchError(true)
+			})
 	}, [selectedCountry])
 
 	if (fetchError)
