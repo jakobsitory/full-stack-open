@@ -28,8 +28,6 @@ const persons = [
 
 const infoPage = () => {
 	const phonebookLength = String(persons.length)
-	const title = `<h1>Phonebook info page</h1>`
-	const message = `<p>Phonebook has info for ${phonebookLength} people</p>`
 	const date = String(new Date())
 
 	return	(`
@@ -45,12 +43,22 @@ app.get('/', (request, response) => {
 })
 
 app.get('/info', (request, response) => {
-	const infoPageContent = String(infoPage())
-	response.send(infoPageContent)
+	response.send(infoPage())
 })
 
 app.get('/api/persons', (request, response) => {
 	response.json(persons)
+})
+
+app.get('/api/persons/:id', (request, response) => {
+	const id = request.params.id
+	const entry = persons.find(person => person.id === id)
+	
+	
+	if (entry)
+		response.json(entry)
+	else
+		response.status(404).end()
 })
 
 const PORT = 3001
