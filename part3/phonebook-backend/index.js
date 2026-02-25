@@ -69,6 +69,37 @@ app.delete('/api/persons/:id', (request, response) => {
 	response.status(204).end()
 })
 
+app.post('/api/persons', (request, response) => {
+	const newID = String(Math.floor(Math.random() * 1000000))
+	const personData = request.body
+
+	if (!personData)
+		return response.status(400).json({
+			error: 'Error: Person information is missing'
+		})
+	if (!personData.name || !personData.number)
+		return response.status(400).json({
+			error: 'Error: Person is missing either name or number. Include both to create a new entry.'
+		})
+	if (persons.find(person => person.name === personData.name))
+		return response.status(400).json({
+			error: `Error: Person with name '${personData.name}' already exists`
+		})
+
+	const newContact = {
+		id: newID,
+		name: personData.name,
+		number: personData.phone || ''
+	}
+
+	console.log(newContact)
+	persons = persons.concat(newContact)
+	console.log(persons)
+
+	response.json(newContact)
+
+})
+
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running port ${PORT}`)
