@@ -51,6 +51,13 @@ const AddContact = (props) => {
 								message: `successfully created '${response.name}'`}))
 						setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
 			})
+			.catch((error) => {
+				props.setNotificationMessage(props => ({ ...props.notificationMessage, 
+						show: true, 
+						type: 'error', 
+						message: `Cannot create '${contactObject.name}'. Make sure to include a name and number.`}))
+				setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
+			})
 
 	}
 	

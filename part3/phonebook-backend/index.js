@@ -109,15 +109,12 @@ app.post('/api/persons', (request, response) => {
 	const newContact = {
 		id: newID,
 		name: personData.name,
-		number: personData.phone || ''
+		number: personData.number || ''
 	}
 
-	console.log(newContact)
 	persons = persons.concat(newContact)
-	console.log(persons)
 
 	response.json(newContact)
-
 })
 
 const PORT = 3001
