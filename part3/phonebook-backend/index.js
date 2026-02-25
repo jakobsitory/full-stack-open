@@ -65,10 +65,26 @@ app.get('/api/persons/:id', (request, response) => {
 
 app.delete('/api/persons/:id', (request, response) => {
 	const id = request.params.id
+	const deletedContact = persons.find(person => person.id === id)
 	persons = persons.filter(person => person.id !== id)
 	
-	
 	response.status(204).end()
+})
+
+app.put('/api/persons/:id', (request, response) => {
+	const personData = request.body
+	const id = request.params.id
+	const updatedContact = persons.find(person => person.id === id)
+	
+	if (!updatedContact)
+	return response.status(404).json({ error: `Person with id '${id}' not found` })
+
+	updatedContact.number = personData.number
+	persons = persons
+				.filter(person => person.id !== id)
+				.concat(updatedContact)
+	
+	response.status(200).json(updatedContact)
 })
 
 app.post('/api/persons', (request, response) => {

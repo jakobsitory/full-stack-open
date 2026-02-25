@@ -7,22 +7,23 @@ const Contacts = (props) => {
 		: props.persons
 
 	const handleContactDelete = (person) => {
-		if (!confirm(`Do you want to delete contact '${person.name}'`)) return;
+		if (!confirm(`Do you want to delete contact '${person.name}'`)) 
+			return;
 		personServices
 			.deleteContact(person.id)
-			.then(response => {
-				props.setPersons(props.persons.filter((person) => person.id !== response.id))
+			.then(() => {
+				props.setPersons(props.persons.filter((p) => p.id !== person.id))
 				props.setNotificationMessage(props => ({ ...props.notificationMessage, 
 						show: true, 
 						type: 'success', 
-						message: `successfully deleted '${response.name}'`}))
+						message: `successfully deleted '${person.name}'`}))
 				setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
 			})
 			.catch((error) => {
 				props.setNotificationMessage(props => ({ ...props.notificationMessage, 
 						show: true, 
 						type: 'error', 
-						message: `Cannot deleted '${response.name}'. The person was not found in the phonebook.`}))
+						message: `Cannot deleted '${person.name}'. The person was not found in the phonebook.`}))
 				setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
 			})
 		
@@ -44,6 +45,7 @@ const Contacts = (props) => {
 						(filteredPersons && filteredPersons.length > 0)
 						? filteredPersons.map(person => 
 							<tr key={person.id}>
+								<td>{person.id}</td>
 								<td>{person.name}</td>
 								<td>{person.number}</td>
 								<td><button onClick={() => handleContactDelete(person)}>delete</button></td>
