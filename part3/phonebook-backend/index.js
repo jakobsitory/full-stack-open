@@ -82,7 +82,7 @@ app.post('/api/persons', (request, response) => {
 			error: 'Error: Person is missing either name or number. Include both to create a new entry.'
 		})
 	if (persons.find(person => person.name === personData.name))
-		return response.status(400).json({
+		return response.status(409).json({
 			error: `Error: Person with name '${personData.name}' already exists`
 		})
 
