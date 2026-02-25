@@ -8,7 +8,7 @@ const AddContact = (props) => {
 		const duplicatedContact = props.persons.find((contact) => contact.name.toLowerCase() === props.newContact.name.toLowerCase())
 
 		const contactObject = {
-			id: duplicatedContact || null,
+			// id: duplicatedContact.id || null,
 			name: props.newContact.name,
 			number: props.newContact.number
 		}

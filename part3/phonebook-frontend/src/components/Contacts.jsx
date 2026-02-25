@@ -45,7 +45,7 @@ const Contacts = (props) => {
 						(filteredPersons && filteredPersons.length > 0)
 						? filteredPersons.map(person => 
 							<tr key={person.id}>
-								<td>{person.id}</td>
+								{/* <td>{person.id}</td> */}
 								<td>{person.name}</td>
 								<td>{person.number}</td>
 								<td><button onClick={() => handleContactDelete(person)}>delete</button></td>
