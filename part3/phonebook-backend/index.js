@@ -26,10 +26,28 @@ const persons = [
     }
 ]
 
+const infoPage = () => {
+	const phonebookLength = String(persons.length)
+	const title = `<h1>Phonebook info page</h1>`
+	const message = `<p>Phonebook has info for ${phonebookLength} people</p>`
+	const date = String(new Date())
+
+	return	(`
+		<h1>Phonebook info page</h1>
+		<p>Phonebook has info for ${phonebookLength} people</p>
+		<p>${date}<p>
+	`)
+	
+}
+
 app.get('/', (request, response) => {
   response.send('<h1>Hello Phonebook!</h1>')
 })
 
+app.get('/info', (request, response) => {
+	const infoPageContent = String(infoPage())
+	response.send(infoPageContent)
+})
 
 app.get('/api/persons', (request, response) => {
 	response.json(persons)
