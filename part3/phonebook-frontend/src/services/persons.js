@@ -1,5 +1,6 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/api/persons'
+// const baseUrl = 'http://localhost:3001/api/persons' // For development
+const baseUrl = '/api/persons' // For production, proxy is set in package.json to forward requests to backend server
 
 
 const getAll = () => {
