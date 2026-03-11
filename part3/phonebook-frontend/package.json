@@ -6,6 +6,7 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
+		"build:ui": "rm -rf dist && cd ../phonebook-frontend/ && npm run build && cp -r dist ../phonebook-backend",
 		"lint": "eslint .",
 		"preview": "vite preview"
 	},
