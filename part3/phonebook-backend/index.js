@@ -1,9 +1,11 @@
 const express = require('express')
+const app = express()
 const cors = require('cors')
 
-const app = express()
 app.use(cors())
 app.use(express.json())
+
+app.use(express.static('dist'))
 
 let persons = [
     { 
@@ -40,9 +42,10 @@ const infoPage = () => {
 	
 }
 
-app.get('/', (request, response) => {
-  response.send('<h1>Hello Phonebook!</h1>')
-})
+// For local and testing
+// app.get('/', (request, response) => {
+//   response.send('<h1>Hello Phonebook!</h1>')
+// })
 
 app.get('/info', (request, response) => {
 	response.send(infoPage())
