@@ -20,7 +20,8 @@ const Contact = mongoose.model('Contact', contactSchema)
 
 if (!name && !number) {
   return Contact.find()
-    .then(result => {
+  .then(result => {
+      console.log("phonebook:")
       result.forEach(contact => {
         console.log(`${contact.name} ${contact.number} `)
       })
