@@ -1,21 +1,24 @@
 const mongoose = require('mongoose')
 
-mongoose.set('strictQuery',false)
 const password = process.argv[2]
 const name = process.argv[3]
 const number = process.argv[4]
+const url = `mongodb+srv://fullstack:${password}@cluster0.vl1rfci.mongodb.net/phonebook?retryWrites=true&w=majority&appName=Cluster0`
 
 if (!password) {
   console.log('give password as argument')
   process.exit(1)
 }
 
-const url = `mongodb+srv://fullstack:${password}@cluster0.vl1rfci.mongodb.net/phonebook?retryWrites=true&w=majority&appName=Cluster0`
+
+mongoose.set('strictQuery',false)
 mongoose.connect(url, { family: 4 })
+
 const contactSchema = new mongoose.Schema({
   name: String,
   number: String,
 })
+
 const Contact = mongoose.model('Contact', contactSchema)
 
 if (!name && !number) {

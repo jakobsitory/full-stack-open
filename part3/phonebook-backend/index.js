@@ -1,3 +1,4 @@
+const Note = require('./models/contact')
 const express = require('express')
 const app = express()
 // const cors = require('cors')
@@ -7,28 +8,56 @@ app.use(express.json())
 
 app.use(express.static('dist'))
 
-let persons = [
-    { 
-      "id": "1",
-      "name": "Arto Hellas", 
-      "number": "040-123456"
-    },
-    { 
-      "id": "2",
-      "name": "Ada Lovelace", 
-      "number": "39-44-5323523"
-    },
-    { 
-      "id": "3",
-      "name": "Dan Abramov", 
-      "number": "12-43-234345"
-    },
-    { 
-      "id": "4",
-      "name": "Mary Poppendieck", 
-      "number": "39-23-6423122"
-    }
-]
+// let persons = [
+//     { 
+//       "id": "1",
+//       "name": "Arto Hellas", 
+//       "number": "040-123456"
+//     },
+//     { 
+//       "id": "2",
+//       "name": "Ada Lovelace", 
+//       "number": "39-44-5323523"
+//     },
+//     { 
+//       "id": "3",
+//       "name": "Dan Abramov", 
+//       "number": "12-43-234345"
+//     },
+//     { 
+//       "id": "4",
+//       "name": "Mary Poppendieck", 
+//       "number": "39-23-6423122"
+//     }
+// ]
+
+// const mongoose = require('mongoose')
+
+// const password = process.argv[2]
+// const name = process.argv[3]
+// const number = process.argv[4]
+// const url = `mongodb+srv://fullstack:${password}@cluster0.vl1rfci.mongodb.net/phonebook?retryWrites=true&w=majority&appName=Cluster0`
+
+// if (!password) {
+//   console.log('give password as argument')
+//   process.exit(1)
+// }
+
+
+// mongoose.set('strictQuery',false)
+// mongoose.connect(url, { family: 4 })
+
+
+
+// contactSchema.set('toJSON', {
+//   transform: (document, returnedObject) => {
+//     returnedObject.id = returnedObject._id.toString()
+//     delete returnedObject._id
+//     delete returnedObject.__v
+//   }
+// })
+
+// const Contact = mongoose.model('Contact', contactSchema)
 
 const infoPage = () => {
 	const phonebookLength = String(persons.length)
@@ -52,7 +81,10 @@ app.get('/info', (request, response) => {
 })
 
 app.get('/api/persons', (request, response) => {
-	response.json(persons)
+	// response.json(persons)
+	Contact.find({}).then(notes => {
+		response.json(notes)
+	})
 })
 
 app.get('/api/persons/:id', (request, response) => {
