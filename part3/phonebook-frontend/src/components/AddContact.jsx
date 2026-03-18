@@ -13,6 +13,8 @@ const AddContact = (props) => {
 			number: props.newContact.number
 		}
 		
+		console.log(contactObject)
+
 		if (duplicatedContact) {
 			if (confirm(`${props.newContact.name} is already in the phonebook.\nReplace the old number with a new one?`))
 				personServices

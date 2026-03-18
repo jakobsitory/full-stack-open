@@ -1,63 +1,12 @@
-const Note = require('./models/contact')
+require('dotenv').config()
+
 const express = require('express')
+const Contact = require('./models/contact')
+const PORT = process.env.PORT
 const app = express()
-// const cors = require('cors')
 
-// app.use(cors())
 app.use(express.json())
-
 app.use(express.static('dist'))
-
-// let persons = [
-//     { 
-//       "id": "1",
-//       "name": "Arto Hellas", 
-//       "number": "040-123456"
-//     },
-//     { 
-//       "id": "2",
-//       "name": "Ada Lovelace", 
-//       "number": "39-44-5323523"
-//     },
-//     { 
-//       "id": "3",
-//       "name": "Dan Abramov", 
-//       "number": "12-43-234345"
-//     },
-//     { 
-//       "id": "4",
-//       "name": "Mary Poppendieck", 
-//       "number": "39-23-6423122"
-//     }
-// ]
-
-// const mongoose = require('mongoose')
-
-// const password = process.argv[2]
-// const name = process.argv[3]
-// const number = process.argv[4]
-// const url = `mongodb+srv://fullstack:${password}@cluster0.vl1rfci.mongodb.net/phonebook?retryWrites=true&w=majority&appName=Cluster0`
-
-// if (!password) {
-//   console.log('give password as argument')
-//   process.exit(1)
-// }
-
-
-// mongoose.set('strictQuery',false)
-// mongoose.connect(url, { family: 4 })
-
-
-
-// contactSchema.set('toJSON', {
-//   transform: (document, returnedObject) => {
-//     returnedObject.id = returnedObject._id.toString()
-//     delete returnedObject._id
-//     delete returnedObject.__v
-//   }
-// })
-
-// const Contact = mongoose.model('Contact', contactSchema)
 
 const infoPage = () => {
 	const phonebookLength = String(persons.length)
@@ -71,31 +20,23 @@ const infoPage = () => {
 	
 }
 
-// For local and testing
-// app.get('/', (request, response) => {
-//   response.send('<h1>Hello Phonebook!</h1>')
-// })
-
 app.get('/info', (request, response) => {
 	response.send(infoPage())
 })
 
 app.get('/api/persons', (request, response) => {
-	// response.json(persons)
 	Contact.find({}).then(notes => {
 		response.json(notes)
 	})
 })
 
 app.get('/api/persons/:id', (request, response) => {
-	const id = request.params.id
-	const entry = persons.find(person => person.id === id)
-	
-	
-	if (entry)
-		response.json(entry)
-	else
-		response.status(404).end()
+	const id = request.params.id	
+
+	//MISSING ERROR HANDLING FOR 404
+	Contact.findById(id).then(contact => {
+		response.json(contact)
+	})
 })
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -125,7 +66,6 @@ app.put('/api/persons/:id', (request, response) => {
 })
 
 app.post('/api/persons', (request, response) => {
-	const newID = String(Math.floor(Math.random() * 1000000))
 	const personData = request.body
 
 	if (!personData)
@@ -136,23 +76,21 @@ app.post('/api/persons', (request, response) => {
 		return response.status(400).json({
 			error: 'Error: Person is missing either name or number. Include both to create a new entry.'
 		})
-	if (persons.find(person => person.name === personData.name))
-		return response.status(409).json({
-			error: `Error: Person with name '${personData.name}' already exists`
-		})
+	// if (Contact.find(person => person.name === personData.name))
+	// 	return response.status(409).json({
+	// 		error: `Error: Person with name '${personData.name}' already exists`
+	// 	})
 
-	const newContact = {
-		id: newID,
+	const contact = new Contact ({
 		name: personData.name,
 		number: personData.number || ''
-	}
+	})
 
-	persons = persons.concat(newContact)
-
-	response.json(newContact)
+	contact.save().then(savedContact => {
+		response.json(savedContact)
+	})
 })
 
-const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running port ${PORT}`)
 })
