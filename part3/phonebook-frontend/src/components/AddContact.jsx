@@ -8,7 +8,6 @@ const AddContact = (props) => {
 		const duplicatedContact = props.persons.find((contact) => contact.name.toLowerCase() === props.newContact.name.toLowerCase())
 
 		const contactObject = {
-			// id: duplicatedContact.id || null,
 			name: props.newContact.name,
 			number: props.newContact.number
 		}
@@ -24,16 +23,18 @@ const AddContact = (props) => {
 						))
 						props.setNewContact({name: '', number: ''})
 						props.setNotificationMessage(props => ({ ...props.notificationMessage, 
-								show: true, 
-								type: 'success', 
-								message: `successfully updated '${response.name}'`}))
+							show: true, 
+							type: 'success', 
+							message: `successfully updated '${response.name}'`
+						}))
 						setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
 					})
 					.catch((error) => {
 						props.setNotificationMessage(props => ({ ...props.notificationMessage, 
-								show: true, 
-								type: 'error', 
-								message: `Cannot update '${duplicatedContact.name}'. The person was not found in the phonebook.`}))
+							show: true, 
+							type: 'error', 
+							message: error.response.data.error
+						}))
 						setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
 					})
 				
@@ -45,18 +46,18 @@ const AddContact = (props) => {
 			.then(response => {
 				props.setPersons(props.persons.concat(response))
 				props.setNewContact({name: '', number: ''})
-						props.setNotificationMessage(props => ({ ...props.notificationMessage, 
-								show: true, 
-								type: 'success', 
-								message: `successfully created '${response.name}'`}))
-						setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
+				props.setNotificationMessage(props => ({ ...props.notificationMessage, 
+					show: true, 
+					type: 'success', 
+					message: `successfully created '${response.name}'`}))
+				setTimeout(() => {props.setNotificationMessage({show: false})}, 4000)
 			})
 			.catch((error) => {
 				console.log(error)
 				props.setNotificationMessage(props => ({ ...props.notificationMessage, 
-						show: true, 
-						type: 'error',
-						message: error.response?.data?.error || error.message
+					show: true, 
+					type: 'error',
+					message: error.response.data.error
 					}))
 				setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
 			})
@@ -85,10 +86,10 @@ const AddContact = (props) => {
 			<div>
 				<label>Phone:</label>
 				<input
-						value={props.newContact.number}
-						type='tel'
-						placeholder='0049 123 4567890'
-						onChange={handlePhoneInputChange}/>
+					value={props.newContact.number}
+					type='tel'
+					placeholder='012-3456789'
+					onChange={handlePhoneInputChange}/>
 			</div>
 			<div>
 				<button type="submit" disabled={!props.newContact.name}>add</button>
