@@ -5,30 +5,40 @@ const Contact = require('./models/contact')
 const PORT = process.env.PORT
 const app = express()
 
+const requestLogger = (request, response, next) => {
+  console.log('Method:', request.method)
+  console.log('Path:', request.path)
+  console.log('Body:', request.body)
+  console.log('---')
+  next()
+}
+
 app.use(express.static('dist'))
 app.use(express.json())
-// app.use(requestLogger)
+app.use(requestLogger)
 
-// const infoPage = () => {
-// 	const phonebookLength = String(persons.length)
-// 	const date = String(new Date())
+const infoPage = async () => {
+	const phonebookLength = await Contact.countDocuments({})
+	const date = String(new Date())
 
-// 	return	(`
-// 		<h1>Phonebook info page</h1>
-// 		<p>Phonebook has info for ${phonebookLength} people</p>
-// 		<p>${date}<p>
-// 	`)
+	return	(`
+		<h1>Phonebook info page</h1>
+		<p>Phonebook has info for ${phonebookLength} people</p>
+		<p>${date}</p>
+	`)
 	
-// }
+}
 
-// app.get('/info', (request, response) => {
-// 	response.send(infoPage())
-// })
+app.get('/info', async (request, response) => {
+	response.send(await infoPage())
+})
 
-app.get('/api/persons', (request, response) => {
-	Contact.find({}).then(notes => {
-		response.json(notes)
-	})
+app.get('/api/persons', (request, response, next) => {
+	Contact.find({})
+		.then(notes => {
+			response.json(notes)
+		})
+		.catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
@@ -46,30 +56,35 @@ app.get('/api/persons/:id', (request, response, next) => {
 	.catch(error => next(error))
 })
 
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
 	const id = request.params.id
-	persons = persons.filter(person => person.id !== id)
 
-	response.status(204).end()
+	Contact.findByIdAndDelete(id)
+		.then(response.status(204).end())
+		.catch(error => next(error))
 })
 
-app.put('/api/persons/:id', (request, response) => {
+app.put('/api/persons/:id', (request, response, next) => {
 	const id = request.params.id
 	const personData = request.body
-	const updatedContact = persons.find(person => person.id === id)
 	
-	if (!updatedContact)
-		return response.status(404).json({ error: `Person with id '${id}' not found` })
-	
-	updatedContact.number = personData.number
+	if (!personData.name || !personData.number)
+		return response.status(400).json({
+			error: 'Error: Person is missing either name or number. Include both to update the entry.'
+		})
 
-	persons = persons.map(person => 
-		person.id === id
-			? updatedContact
-			: person
-	)
-	
-	response.status(200).json(updatedContact)
+	Contact.findById(id)
+		.then(contact => {
+			if (!contact)
+				return response.status(404).end()
+			
+			contact.name = personData.name
+			contact.number = personData.number
+			
+			return contact.save().then((updatedNote) => {
+				response.json(updatedNote)
+			})
+		})
 })
 
 app.post('/api/persons', (request, response) => {
@@ -83,19 +98,17 @@ app.post('/api/persons', (request, response) => {
 		return response.status(400).json({
 			error: 'Error: Person is missing either name or number. Include both to create a new entry.'
 		})
-	// if (Contact.find(person => person.name === personData.name))
-	// 	return response.status(409).json({
-	// 		error: `Error: Person with name '${personData.name}' already exists`
-	// 	})
 
 	const contact = new Contact ({
 		name: personData.name,
 		number: personData.number || ''
 	})
 
-	contact.save().then(savedContact => {
-		response.json(savedContact)
-	})
+	contact.save()
+		.then(savedContact => {
+			response.json(savedContact)
+		})
+		.catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
@@ -109,7 +122,7 @@ const errorHandler = (error, request, response, next) => {
 	console.error(error.message)
 
 	if (error.name === 'CastError'){
-		return response.status(400).send({error: 'malformattted id'})
+		return response.status(400).send({error: 'malformatted id'})
 	}
 }
 
