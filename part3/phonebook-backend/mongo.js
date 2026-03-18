@@ -23,8 +23,8 @@ const Contact = mongoose.model('Contact', contactSchema)
 
 if (!name && !number) {
   return Contact.find()
-  .then(result => {
-      console.log("phonebook:")
+    .then(result => {
+      console.log('phonebook:')
       result.forEach(contact => {
         console.log(`${contact.name} ${contact.number} `)
       })
@@ -41,11 +41,12 @@ if (name && number) {
   })
 
   return contact.save()
-  .then(result => {
-    console.log(`added ${name} number ${number} to phonebook`)
-    mongoose.connection.close()
-    process.exit(1)
-  })
+    .then(result => {
+      console.log(`added ${name} number ${number} to phonebook`)
+      console.log(result)
+      mongoose.connection.close()
+      process.exit(1)
+    })
 }
 
 console.log ('provide a name and number to create a new contact')
