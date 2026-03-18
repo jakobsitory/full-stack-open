@@ -12,8 +12,6 @@ const AddContact = (props) => {
 			name: props.newContact.name,
 			number: props.newContact.number
 		}
-		
-		console.log(contactObject)
 
 		if (duplicatedContact) {
 			if (confirm(`${props.newContact.name} is already in the phonebook.\nReplace the old number with a new one?`))
@@ -54,10 +52,12 @@ const AddContact = (props) => {
 						setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
 			})
 			.catch((error) => {
+				console.log(error)
 				props.setNotificationMessage(props => ({ ...props.notificationMessage, 
 						show: true, 
-						type: 'error', 
-						message: `Cannot create '${contactObject.name}'. Make sure to include a name and number.`}))
+						type: 'error',
+						message: error.response?.data?.error || error.message
+					}))
 				setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
 			})
 

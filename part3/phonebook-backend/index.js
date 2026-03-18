@@ -68,10 +68,10 @@ app.put('/api/persons/:id', (request, response, next) => {
 	const id = request.params.id
 	const personData = request.body
 	
-	if (!personData.name || !personData.number)
-		return response.status(400).json({
-			error: 'Error: Person is missing either name or number. Include both to update the entry.'
-		})
+	// if (!personData.name || !personData.number)
+	// 	return response.status(400).json({
+	// 		error: 'Error: Person is missing either name or number. Include both to update the entry.'
+	// 	})
 
 	Contact.findById(id)
 		.then(contact => {
@@ -85,9 +85,10 @@ app.put('/api/persons/:id', (request, response, next) => {
 				response.json(updatedNote)
 			})
 		})
+		.catch(error => next(error))
 })
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
 	const personData = request.body
 
 	if (!personData)
@@ -123,7 +124,11 @@ const errorHandler = (error, request, response, next) => {
 
 	if (error.name === 'CastError'){
 		return response.status(400).send({error: 'malformatted id'})
+	} else if (error.name === 'ValidationError') {
+		return response.status(400).json({ error: error.message})
 	}
+
+	response.status(500).json({ error: 'internal server error'})
 }
 
 app.use(errorHandler)
