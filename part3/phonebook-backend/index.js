@@ -5,24 +5,25 @@ const Contact = require('./models/contact')
 const PORT = process.env.PORT
 const app = express()
 
-app.use(express.json())
 app.use(express.static('dist'))
+app.use(express.json())
+// app.use(requestLogger)
 
-const infoPage = () => {
-	const phonebookLength = String(persons.length)
-	const date = String(new Date())
+// const infoPage = () => {
+// 	const phonebookLength = String(persons.length)
+// 	const date = String(new Date())
 
-	return	(`
-		<h1>Phonebook info page</h1>
-		<p>Phonebook has info for ${phonebookLength} people</p>
-		<p>${date}<p>
-	`)
+// 	return	(`
+// 		<h1>Phonebook info page</h1>
+// 		<p>Phonebook has info for ${phonebookLength} people</p>
+// 		<p>${date}<p>
+// 	`)
 	
-}
+// }
 
-app.get('/info', (request, response) => {
-	response.send(infoPage())
-})
+// app.get('/info', (request, response) => {
+// 	response.send(infoPage())
+// })
 
 app.get('/api/persons', (request, response) => {
 	Contact.find({}).then(notes => {
@@ -30,13 +31,19 @@ app.get('/api/persons', (request, response) => {
 	})
 })
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
 	const id = request.params.id	
 
-	//MISSING ERROR HANDLING FOR 404
-	Contact.findById(id).then(contact => {
-		response.json(contact)
+	Contact.findById(id)
+	.then(contact => {
+		if (contact){
+			response.json(contact)
+		}
+		else {
+			response.status(404).end()
+		}
 	})
+	.catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -90,6 +97,23 @@ app.post('/api/persons', (request, response) => {
 		response.json(savedContact)
 	})
 })
+
+const unknownEndpoint = (request, response) => {
+	response.status(404).send({ error: 'unknown endpoint'})
+}
+
+app.use(unknownEndpoint)
+
+
+const errorHandler = (error, request, response, next) => {
+	console.error(error.message)
+
+	if (error.name === 'CastError'){
+		return response.status(400).send({error: 'malformattted id'})
+	}
+}
+
+app.use(errorHandler)
 
 app.listen(PORT, () => {
   console.log(`Server running port ${PORT}`)
