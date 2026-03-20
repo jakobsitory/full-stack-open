@@ -60,18 +60,13 @@ app.delete('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
 
   Contact.findByIdAndDelete(id)
-    .then(response.status(204).end())
+    .then(() => response.status(204).end())
     .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
   const personData = request.body
-
-  // if (!personData.name || !personData.number)
-  //   return response.status(400).json({
-  //     error: 'Error: Person is missing either name or number. Include both to update the entry.'
-  //   })
 
   Contact.findById(id)
     .then(contact => {
@@ -116,8 +111,8 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint)
 
-
-const errorHandler = (error, request, response) => {
+// eslint-disable-next-line no-unused-vars
+const errorHandler = (error, request, response, next) => {
   console.error(error.message)
 
   if (error.name === 'CastError'){

@@ -20,6 +20,7 @@ const Contacts = (props) => {
 				setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
 			})
 			.catch((error) => {
+				console.error(error)
 				props.setNotificationMessage(props => ({ ...props.notificationMessage, 
 						show: true, 
 						type: 'error', 

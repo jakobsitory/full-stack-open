@@ -24,6 +24,15 @@ const App = () => {
 			.then(response => {
 				setPersons(response)
 			})
+			.catch( (error) => {
+				setNotificationMessage(prev => ({ ...prev.notificationMessage, 
+					show: true, 
+					type: 'error', 
+					message: error.message
+				}))
+				setTimeout(() => {setNotificationMessage({show: false})}, 2000)
+
+			})
 	}, [])
 
 

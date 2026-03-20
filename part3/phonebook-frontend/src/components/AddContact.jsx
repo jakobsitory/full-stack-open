@@ -33,7 +33,7 @@ const AddContact = (props) => {
 						props.setNotificationMessage(props => ({ ...props.notificationMessage, 
 							show: true, 
 							type: 'error', 
-							message: error.response.data.error
+							message: error.message
 						}))
 						setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
 					})
@@ -57,8 +57,8 @@ const AddContact = (props) => {
 				props.setNotificationMessage(props => ({ ...props.notificationMessage, 
 					show: true, 
 					type: 'error',
-					message: error.response.data.error
-					}))
+					message: error.message
+				}))
 				setTimeout(() => {props.setNotificationMessage({show: false})}, 2000)
 			})
 

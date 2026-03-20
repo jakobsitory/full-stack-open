@@ -41,9 +41,9 @@ if (name && number) {
   })
 
   return contact.save()
-    .then(result => {
+    .then(() => {
       console.log(`added ${name} number ${number} to phonebook`)
-      console.log(result)
+      // console.log(result)
       mongoose.connection.close()
       process.exit(1)
     })
