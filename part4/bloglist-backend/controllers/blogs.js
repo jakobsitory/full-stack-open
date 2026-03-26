@@ -8,12 +8,15 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
+  const likes = request.body.likes
+    ? request.body.likes
+    : 0
 
   const blog = new Blog({
     title: body.title,
     author: body.author,
     url: body.url,
-    likes: body.likes,
+    likes: likes,
   })
 
   try {

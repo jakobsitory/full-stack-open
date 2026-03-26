@@ -32,7 +32,7 @@ test('the unique identifier property is named id', async () => {
   assert(blogs[0].id | !blogs[0]._id)
 })
 
-test('a valid blog can be added ', async () => {
+test('a valid blog can be added', async () => {
   const newBlog = {
     title: 'test blog',
     author: 'test author',
@@ -51,6 +51,25 @@ test('a valid blog can be added ', async () => {
 
   const contents = blogsAtEnd.map((n) => n.url)
   assert(contents.includes('www.test.url'))
+})
+
+
+test('a blog without a likes count sets it to 0', async () => {
+  const newBlog = {
+    title: 'test blog without likes',
+    author: 'test author',
+    url: 'www.test.url',
+  }
+
+  const response = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const createdBlog = response.body
+
+  assert.strictEqual(createdBlog.likes, 0)
 })
 
 after(async () => {
