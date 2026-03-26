@@ -1,6 +1,6 @@
 const Note = require('../models/blog')
 
-const initialBlog = [
+const initialBlogs = [
     {
         _id: "5a422a851b54a676234d17f7",
         title: "React patterns",
@@ -57,6 +57,6 @@ const blogsInDb = async () => {
 }
 
 module.exports = {
-    initialBlog,
+    initialBlogs,
     blogsInDb,
 }

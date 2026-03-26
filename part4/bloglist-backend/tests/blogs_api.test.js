@@ -1,24 +1,24 @@
-// const assert = require('node:assert')
-// const { test, after, beforeEach } = require('node:test')
-// const mongoose = require('mongoose')
-// const supertest = require('supertest')
-// const app = require('../app')
-// const helper = require('./test_helper')
-// const Note = require('../models/note')
+const assert = require('node:assert')
+const { test, after, beforeEach } = require('node:test')
+const mongoose = require('mongoose')
+const supertest = require('supertest')
+const app = require('../app')
+const helper = require('./test_helper')
+const Blog = require('../models/blog')
 
-// const api = supertest(app)
+const api = supertest(app)
 
-// beforeEach(async () => {
-//   await Note.deleteMany({})
-//   await Note.insertMany(helper.initialNotes)
-// })
+beforeEach(async () => {
+  await Blog.deleteMany({})
+  await Blog.insertMany(helper.initialBlogs)
+})
 
-// test('notes are returned as json', async () => {
-//   await api
-//     .get('/api/notes')
-//     .expect(200)
-//     .expect('Content-Type', /application\/json/)
-// })
+test('notes are returned as json', async () => {
+  await api
+    .get('/api/blogs')
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+})
 
 // test('all notes are returned', async () => {
 //   const notes = await helper.notesInDb()
@@ -45,6 +45,6 @@
 //   assert(contents.includes('async/await simplifies making async calls'))
 // })
 
-// after(async () => {
-//   await mongoose.connection.close()
-// })
+after(async () => {
+  await mongoose.connection.close()
+})

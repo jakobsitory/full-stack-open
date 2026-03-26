@@ -6,7 +6,7 @@ const Blog = require('../models/blog')
 
 
 describe('most blogs', () => {
-    const blogs = helper.initialBlog
+    const blogs = helper.initialBlogs
     
     test('of empty list is undefined', () => {
         const result = mostBlogs([])

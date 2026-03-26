@@ -6,7 +6,7 @@ const Blog = require('../models/blog')
 
 
 describe('total likes', () => {
-    const blogs = helper.initialBlog
+    const blogs = helper.initialBlogs
     
     test('of empty list is zero', () => {
         const result = totalLikes([])
