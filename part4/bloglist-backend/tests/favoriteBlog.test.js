@@ -1,12 +1,13 @@
 const { test, describe } = require('node:test')
 const assert = require('node:assert')
 const favoriteBlog = require('../utils/list_helper').favoriteBlog
-const { blogs: createBlogs } = require('./mockList')
+const helper = require('./test_helper')
+const Blog = require('../models/blog')
 
 
 describe('favorite blog', () => {
-    const blogs = createBlogs()
-    
+    const blogs = helper.initialBlog
+
     test('of empty list is undefined', () => {
         const result = favoriteBlog([])
         assert.strictEqual(result, undefined)

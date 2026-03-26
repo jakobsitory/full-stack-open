@@ -1,11 +1,12 @@
 const { test, describe } = require('node:test')
 const assert = require('node:assert')
 const mostLikes = require('../utils/list_helper').mostLikes
-const { blogs: createBlogs } = require('./mockList')
+const helper = require('./test_helper')
+const Blog = require('../models/blog')
 
 
 describe('most blogs', () => {
-    const blogs = createBlogs()
+    const blogs = helper.initialBlog
     
     test('of empty list is undefined', () => {
         const result = mostLikes([])
