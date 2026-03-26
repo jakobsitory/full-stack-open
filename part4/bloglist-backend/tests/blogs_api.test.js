@@ -32,24 +32,26 @@ test('the unique identifier property is named id', async () => {
   assert(blogs[0].id | !blogs[0]._id)
 })
 
-// test('a valid note can be added ', async () => {
-//   const newNote = {
-//     content: 'async/await simplifies making async calls',
-//     important: true,
-//   }
+test('a valid blog can be added ', async () => {
+  const newBlog = {
+    title: 'test blog',
+    author: 'test author',
+    url: 'www.test.url',
+    likes: 42,
+  }
 
-//   await api
-//     .post('/api/notes')
-//     .send(newNote)
-//     .expect(201)
-//     .expect('Content-Type', /application\/json/)
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
 
-//   const notesAtEnd = await helper.notesInDb()
-//   assert.strictEqual(notesAtEnd.length, helper.initialNotes.length + 1)
+  const blogsAtEnd = await helper.blogsInDb()
+  assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1)
 
-//   const contents = notesAtEnd.map((n) => n.content)
-//   assert(contents.includes('async/await simplifies making async calls'))
-// })
+  const contents = blogsAtEnd.map((n) => n.url)
+  assert(contents.includes('www.test.url'))
+})
 
 after(async () => {
   await mongoose.connection.close()
