@@ -1,6 +1,6 @@
 const { test, describe } = require('node:test')
 const assert = require('node:assert')
-const mostBlogs = require('../utils/list_helper').mostBlogs
+const mostLikes = require('../utils/list_helper').mostLikes
 const { blogs: createBlogs } = require('./mockList')
 
 
@@ -8,7 +8,7 @@ describe('most blogs', () => {
     const blogs = createBlogs()
     
     test('of empty list is undefined', () => {
-        const result = mostBlogs([])
+        const result = mostLikes([])
         assert.strictEqual(result, undefined)
     })
   
@@ -16,20 +16,20 @@ describe('most blogs', () => {
         const listWithOneBlog = [blogs[0]]
         const expected = {
             "author": listWithOneBlog[0].author,
-            "blogs": 1
+            "likes": 7
         }
 
-        const result = mostBlogs(listWithOneBlog)
+        const result = mostLikes(listWithOneBlog)
         assert.deepStrictEqual(result, expected)
     })
   
-    test('a bigger list returns the blog author with most blogs gets returned', () => {
+    test('a bigger list returns the blog author with most likes gets returned', () => {
         const expected = {
-            "author": 'Robert C. Martin',
-            "blogs": 3
+            "author": 'Edsger W. Dijkstra',
+            "likes": 17
         }
 
-        const result = mostBlogs(blogs)
+        const result = mostLikes(blogs)
         assert.deepStrictEqual(result, expected)
     })
 })
