@@ -1,0 +1,36 @@
+{
+  "name": "bloglist-backend",
+  "version": "0.0.1",
+  "description": "node.js backend for a blog list. part of the fullstack open course, part4",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "echo \"Error: no tests found\" && exit 1"
+  },
+  "keywords": [
+    "node.js",
+    "fullstack-open",
+    "express",
+    "backend",
+    "testing",
+    "user-administration",
+    "token-authentication"
+  ],
+  "license": "MIT",
+  "author": "Jakob Schott",
+  "type": "commonjs",
+  "homepage": "https://github.com/jakobsitory/full-stack-open#readme",
+  "bugs": {
+    "url": "https://github.com/jakobsitory/full-stack-open/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakobsitory/full-stack-open.git"
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "mongoose": "^9.3.3"
+  }
+}
