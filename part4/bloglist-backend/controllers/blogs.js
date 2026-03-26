@@ -10,7 +10,7 @@ blogsRouter.post('/', async (request, response) => {
   const body = request.body
 
   if (!body.title || !body.url)
-    response.status(400)
+    return response.status(400).json({ error: 'title and url are required' })
 
   const likes = request.body.likes
     ? request.body.likes

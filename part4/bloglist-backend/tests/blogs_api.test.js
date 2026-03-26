@@ -74,22 +74,33 @@ describe('test POST', () => {
         assert.strictEqual(createdBlog.likes, 0)
     })
 
-    test('a blog ', async () => {
+    test('a blog without title return 400 Bad Request', async () => {
         const newBlog = {
-            title: 'test blog without likes',
+            title: '',
             author: 'test author',
             url: 'www.test.url',
+            likes: 42,
         }
 
         const response = await api
             .post('/api/blogs')
             .send(newBlog)
-            .expect(201)
+            .expect(400)
             .expect('Content-Type', /application\/json/)
+    })
 
-        const createdBlog = response.body
+    test('a blog without url return 400 Bad Request', async () => {
+        const newBlog = {
+            title: 'test title',
+            author: 'test author',
+            likes: 42,
+        }
 
-        assert.strictEqual(createdBlog.likes, 0)
+        const response = await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
     })
 })
 
