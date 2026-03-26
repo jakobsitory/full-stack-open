@@ -20,11 +20,11 @@ test('notes are returned as json', async () => {
     .expect('Content-Type', /application\/json/)
 })
 
-// test('all notes are returned', async () => {
-//   const notes = await helper.notesInDb()
+test('all notes are returned', async () => {
+  const blogs = await helper.blogsInDb()
 
-//   assert.strictEqual(notes.length, helper.initialNotes.length)
-// })
+  assert.strictEqual(blogs.length, helper.initialBlogs.length)
+})
 
 // test('a valid note can be added ', async () => {
 //   const newNote = {
