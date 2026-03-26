@@ -10,10 +10,16 @@ Introductory React exercises covering components, props, state, and event handli
 | [unicafe](unicafe/) | Feedback collector with statistics (good / neutral / bad) |
 | [anecdotes](anecdotes/) | Random software anecdote viewer with voting |
 
-## Getting Started
+## Install Instructions
 
 ```bash
 cd <project>
 npm install
+```
+
+## Usage Examples
+
+```bash
+cd <project>
 npm run dev
 ```
