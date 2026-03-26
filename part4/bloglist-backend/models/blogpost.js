@@ -1,14 +1,5 @@
 const mongoose = require('mongoose')
 
-const noteSchema = new mongoose.Schema({
-  content: {
-    type: String,
-    required: true,
-    minlength: 5,
-  },
-  important: Boolean,
-})
-
 const blogSchema = mongoose.Schema({
   title: String,
   author: String,
