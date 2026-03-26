@@ -104,6 +104,31 @@ describe('test POST', () => {
     })
 })
 
+describe('test DELETE', () => {
+    test('with valid id', async () => {
+        const id = helper.initialBlogs[0]._id
+
+        console.log('ID: ', id)
+        await api
+            .delete(`/api/blogs/${id}`)
+            .expect(204)
+
+        const blogsAtEnd = await helper.blogsInDb()
+        assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1)
+    })
+
+    test('with invalid id (CastError)', async () => {
+        const id = 'invalid-format'
+
+        console.log('ID: ', id)
+        await api
+            .delete(`/api/blogs/${id}`)
+            .expect(400)
+
+        const blogsAtEnd = await helper.blogsInDb()
+        assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
+    })
+})
 
 after(async () => {
   await mongoose.connection.close()
