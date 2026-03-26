@@ -4,9 +4,9 @@
   "description": "node.js backend for a blog list. part of the fullstack open course, part4",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node --watch index.js",
-    "test": "node --test"
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development node --watch index.js",
+    "test": "cross-env  NODE_ENV=test node --test"
   },
   "keywords": [
     "node.js",
@@ -29,8 +29,12 @@
     "url": "git+https://github.com/jakobsitory/full-stack-open.git"
   },
   "dependencies": {
+    "cross-env": "^10.1.0",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "mongoose": "^9.3.3"
+  },
+  "devDependencies": {
+    "supertest": "^7.2.2"
   }
 }
