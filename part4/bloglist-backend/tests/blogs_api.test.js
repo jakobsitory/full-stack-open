@@ -108,7 +108,6 @@ describe('test DELETE', () => {
     test('with valid id', async () => {
         const id = helper.initialBlogs[0]._id
 
-        console.log('ID: ', id)
         await api
             .delete(`/api/blogs/${id}`)
             .expect(204)
@@ -120,13 +119,74 @@ describe('test DELETE', () => {
     test('with invalid id (CastError)', async () => {
         const id = 'invalid-format'
 
-        console.log('ID: ', id)
         await api
             .delete(`/api/blogs/${id}`)
             .expect(400)
 
         const blogsAtEnd = await helper.blogsInDb()
         assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
+    })
+})
+
+describe('test PUT', () => {
+    test('with valid id', async () => {
+        const blogUpdate = helper.initialBlogs[0]
+        const id = blogUpdate._id
+        blogUpdate.likes += 5
+
+        await api
+            .put(`/api/blogs/${id}`)
+            .send(blogUpdate)
+            .expect(200)
+
+        const blogsAtEnd = await helper.blogsInDb()
+        const blogUpdated = blogsAtEnd.find(blog => blog.id === id)
+        assert.notDeepStrictEqual(blogUpdated, helper.initialBlogs[0])
+    })
+
+    test('with invalid id (does not exist)', async () => {
+        const blogUpdate = helper.initialBlogs[0]
+        const id = blogUpdate._id
+        blogUpdate.likes += 5
+
+        await api
+            .delete(`/api/blogs/${id}`)
+            .expect(204)
+
+        await api
+            .put(`/api/blogs/${id}`)
+            .send(blogUpdate)
+            .expect(404)
+    })
+
+    test('with invalid id (CastError)', async () => {
+        const blogUpdate = helper.initialBlogs[0]
+        const id = 'invalid-format'
+        blogUpdate.likes += 5
+
+        await api
+            .delete(`/api/blogs/${id}`)
+            .expect(400)
+    })
+
+    test('missing parameters', async () => {
+        const blog = helper.initialBlogs[0]
+        const id = blog._id
+        const blogUpdate = {
+            "id": id
+        }
+
+        const blogsAtStart = await helper.blogsInDb()
+        const blogInital = blogsAtStart.find(blog => blog.id === id)
+
+        await api
+            .put(`/api/blogs/${id}`)
+            .send(blogUpdate)
+            .expect(200)
+
+        const blogsAtEnd = await helper.blogsInDb()
+        const blogUpdated = blogsAtEnd.find(blog => blog.id === id)
+        assert.deepStrictEqual(blogUpdated, blogInital)
     })
 })
 
