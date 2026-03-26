@@ -26,6 +26,12 @@ test('all notes are returned', async () => {
   assert.strictEqual(blogs.length, helper.initialBlogs.length)
 })
 
+test('the unique identifier property is named id', async () => {
+  const blogs = await helper.blogsInDb()
+
+  assert(blogs[0].id | !blogs[0]._id)
+})
+
 // test('a valid note can be added ', async () => {
 //   const newNote = {
 //     content: 'async/await simplifies making async calls',
