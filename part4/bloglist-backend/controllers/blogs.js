@@ -1,21 +1,14 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 
-
-// app.use(express.json())
-
-blogsRouter.get('/api/blogs', (request, response) => {
+blogsRouter.get('/', (request, response) => {
   Blog.find({}).then((blogs) => {
     response.json(blogs)
   })
 })
 
-blogsRouter.post('/api/blogs', (request, response) => {
-  // const blog = new Blog(request.body)
+blogsRouter.post('/', (request, response) => {
   const body = request.body
-
-  console.log(request)
-
 
   const blog = new Blog({
     title: body.title,
