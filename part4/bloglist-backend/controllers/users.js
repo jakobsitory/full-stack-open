@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 
 // GET
 usersRouter.get('/', async (request, response) => {
-  const users = await User.find({})
+  const users = await User.find({}).populate('blogs', { url: 1, title: 1, author: 1, id: 1 })
   response.json(users)
 })
 
@@ -14,7 +14,7 @@ usersRouter.post('/', async (request, response) => {
 
   if (!body.username || !body.password)
     return response.status(400).json({ error: 'username and password are required' })
-  
+
   if (body.password.length < 3)
     return response.status(400).json({ error: 'User validation failed: password: minimum of three characters' })
 
