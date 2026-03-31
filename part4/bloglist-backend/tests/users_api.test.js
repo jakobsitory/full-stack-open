@@ -61,7 +61,7 @@ describe('test POST', () => {
     assert(contents.includes('test user'))
   })
 
-  test('a user without username returns 400 Bad Request', async () => {
+  test('missing username returns 400 Bad Request', async () => {
     const usersAtStart = helper.initialUsers
 
     const invalidUser = {
@@ -81,7 +81,7 @@ describe('test POST', () => {
     assert.strictEqual(usersAtEnd.length, usersAtStart.length)
   })
 
-  test('a user without password returns 400 Bad Request', async () => {
+  test('missing password returns 400 Bad Request', async () => {
     const usersAtStart = helper.initialUsers
 
     const invalidUser = {
@@ -100,9 +100,8 @@ describe('test POST', () => {
     assert.strictEqual(usersAtEnd.length, usersAtStart.length)
   })
 
-  test('a user with existing username returns 400 Bad Request', async () => {
+  test('existing username returns 400 Bad Request', async () => {
     const usersAtStart = helper.initialUsers
-    console.log(usersAtStart)
 
     const invalidUser = {
       username: usersAtStart[0].username,
@@ -116,6 +115,44 @@ describe('test POST', () => {
 
     const usersAtEnd = await helper.usersInDb()
     assert(result.body.error.includes('expected `username` to be unique'))
+
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+  })
+
+  test('username with less than 3 chars returns 400 Bad Request', async () => {
+    const usersAtStart = helper.initialUsers
+
+    const invalidUser = {
+      username: 'u1',
+      password: 'newPassword',
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(invalidUser)
+      .expect(400)
+
+    const usersAtEnd = await helper.usersInDb()
+    assert(result.body.error.includes('User validation failed: username: minimum of three characters'))
+
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+  })
+
+  test('password with less than 3 chars 400 Bad Request', async () => {
+    const usersAtStart = helper.initialUsers
+
+    const invalidUser = {
+      username: 'newUniqueUserName',
+      password: 'p1',
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(invalidUser)
+      .expect(400)
+
+    const usersAtEnd = await helper.usersInDb()
+    assert(result.body.error.includes('User validation failed: password: minimum of three characters'))
 
     assert.strictEqual(usersAtEnd.length, usersAtStart.length)
   })

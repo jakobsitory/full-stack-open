@@ -93,7 +93,7 @@ describe('test POST', () => {
       likes: 42,
     }
 
-    api
+    await api
       .post('/api/blogs')
       .send(newBlog)
       .expect(400)
@@ -136,12 +136,8 @@ describe('test PUT', () => {
   })
 
   test('with invalid id (does not exist)', async () => {
-    const blogUpdate = helper.initialBlogs[0]
+    const blogUpdate = new Blog ()
     const id = blogUpdate._id
-    blogUpdate.likes += 5
-    await api
-      .delete(`/api/blogs/${id}`)
-      .expect(204)
     await api
       .put(`/api/blogs/${id}`)
       .send(blogUpdate)
@@ -153,7 +149,7 @@ describe('test PUT', () => {
     const id = 'invalid-format'
     blogUpdate.likes += 5
     await api
-      .delete(`/api/blogs/${id}`)
+      .put(`/api/blogs/${id}`)
       .expect(400)
   })
 

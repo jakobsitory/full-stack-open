@@ -14,14 +14,17 @@ usersRouter.post('/', async (request, response) => {
 
   if (!body.username || !body.password)
     return response.status(400).json({ error: 'username and password are required' })
+  
+  if (body.password.length < 3)
+    return response.status(400).json({ error: 'User validation failed: password: minimum of three characters' })
 
   const saltRounds = 10
   const passwordHash = await bcrypt.hash(body.password, saltRounds)
 
   const user = new User({
     username: body.username,
-    passwordHash: passwordHash,
     name: body.name || '',
+    passwordHash: passwordHash,
     blogs: body.blogs || [],
   })
 
