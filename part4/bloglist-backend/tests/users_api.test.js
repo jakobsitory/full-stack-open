@@ -13,7 +13,7 @@ beforeEach(async () => {
   await User.insertMany(helper.initialUsers)
 })
 
-describe('test GET', () => {
+describe('/api/users GET', () => {
   test('users are returned as json', async () => {
     await api
       .get('/api/users')
@@ -34,13 +34,13 @@ describe('test GET', () => {
   })
 
   test('paswordHash property is not returned', async () => {
-    const users =await helper.usersInDb()
+    const users = await helper.usersInDb()
 
     assert(!users[0].passwordHash)
   })
 })
 
-describe('test POST', () => {
+describe('/api/users POST', () => {
   test('a valid user can be added', async () => {
     const newUser = {
       username: 'test user',

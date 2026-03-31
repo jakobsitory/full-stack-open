@@ -13,7 +13,7 @@ beforeEach(async () => {
   await Blog.insertMany(helper.initialBlogs)
 })
 
-describe('test GET', () => {
+describe('/api/blogs GET', () => {
   test('notes are returned as json', async () => {
     await api
       .get('/api/blogs')
@@ -32,7 +32,7 @@ describe('test GET', () => {
   })
 })
 
-describe('test POST', () => {
+describe('/api/blogs POST', () => {
   test('a valid blog can be added', async () => {
     const newBlog = {
       title: 'test blog',
@@ -101,7 +101,7 @@ describe('test POST', () => {
   })
 })
 
-describe('test DELETE', () => {
+describe('/api/blogs DELETE', () => {
   test('with valid id', async () => {
     const id = helper.initialBlogs[0]._id
     await api
@@ -121,7 +121,7 @@ describe('test DELETE', () => {
   })
 })
 
-describe('test PUT', () => {
+describe('/api/blogs PUT', () => {
   test('with valid id', async () => {
     const blogUpdate = helper.initialBlogs[0]
     const id = blogUpdate._id
