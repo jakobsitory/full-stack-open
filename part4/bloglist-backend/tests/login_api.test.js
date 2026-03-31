@@ -15,10 +15,7 @@ beforeEach(async () => {
 
 describe('/api/login POST', () => {
   test('a valid user can login', async () => {
-    const newUser = {
-      'username': 'validUser',
-      'password': 'validPassword'
-    }
+    const newUser = helper.createValidUser()
 
     await api
       .post('/api/users')
@@ -40,10 +37,7 @@ describe('/api/login POST', () => {
   })
 
   test('wrong username returns 400 Bad Request', async () => {
-    const newUser = {
-      'username': 'validUser',
-      'password': 'validPassword'
-    }
+    const newUser = helper.createValidUser()
 
     await api
       .post('/api/users')
@@ -72,10 +66,7 @@ describe('/api/login POST', () => {
   })
 
   test('wrong username returns 400 Bad Request', async () => {
-    const newUser = {
-      'username': 'validUser',
-      'password': 'validPassword'
-    }
+    const newUser = helper.createValidUser()
 
     await api
       .post('/api/users')

@@ -33,7 +33,7 @@ describe('/api/blogs GET', () => {
 })
 
 describe('/api/blogs POST', () => {
-  test('a valid blog can be added', async () => {
+  test('a valid blog without token cannot be added', async () => {
     const newBlog = {
       title: 'test blog',
       author: 'test author',
@@ -43,6 +43,27 @@ describe('/api/blogs POST', () => {
 
     await api
       .post('/api/blogs')
+      .send(newBlog)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
+  })
+
+  test('a valid blog with valid token can be added', async () => {
+    const newBlog = {
+      title: 'test blog',
+      author: 'test author',
+      url: 'www.test.url',
+      likes: 42,
+    }
+
+    const token = await helper.registerAndLogin(api)
+
+    await api
+      .post('/api/blogs')
+      .set('Authorization', 'Bearer ' + token)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -61,8 +82,11 @@ describe('/api/blogs POST', () => {
       url: 'www.test.url',
     }
 
+    const token = await helper.registerAndLogin(api)
+
     const response = await api
       .post('/api/blogs')
+      .set('Authorization', 'Bearer ' + token)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -79,8 +103,11 @@ describe('/api/blogs POST', () => {
       likes: 42,
     }
 
+    const token = await helper.registerAndLogin(api)
+
     await api
       .post('/api/blogs')
+      .set('Authorization', 'Bearer ' + token)
       .send(newBlog)
       .expect(400)
       .expect('Content-Type', /application\/json/)
@@ -93,8 +120,11 @@ describe('/api/blogs POST', () => {
       likes: 42,
     }
 
+    const token = await helper.registerAndLogin(api)
+
     await api
       .post('/api/blogs')
+      .set('Authorization', 'Bearer ' + token)
       .send(newBlog)
       .expect(400)
       .expect('Content-Type', /application\/json/)

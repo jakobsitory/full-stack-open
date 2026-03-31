@@ -55,7 +55,7 @@ blogsRouter.post('/', async (request, response) => {
     response.status(201).json(savedBlog)
   } catch (error) {
     console.error('JWT Error: ', error.message)
-    response.status(401).json({ error: error.message})
+    response.status(401).json({ error: error.message })
   }
 })
 

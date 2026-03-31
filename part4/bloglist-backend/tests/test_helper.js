@@ -69,6 +69,39 @@ const initialUsers = [
   }
 ]
 
+const createValidUser = async () => {
+  const validUser = {
+    'username': 'validUser',
+    'password': 'validPassword'
+  }
+
+  return validUser
+}
+
+const registerAndLogin = async (api) => {
+  const validUser = {
+    'username': 'newValidUser',
+    'password': 'validPassword'
+  }
+
+  const users = await usersInDb()
+  const usernames = users.map((n) => n.username)
+  if (usernames.includes('test user')) {
+    await api
+      .post('/api/users')
+      .send(validUser)
+      .expect(201)
+  }
+
+  const loginResponse = await api
+    .post('/api/login')
+    .send(validUser)
+    .expect(200)
+  const token = loginResponse.body.token
+
+  return token
+}
+
 const blogsInDb = async () => {
   const blogs = await Blog.find({})
   return blogs.map((blog) => blog.toJSON())
@@ -84,4 +117,6 @@ module.exports = {
   blogsInDb,
   initialUsers,
   usersInDb,
+  createValidUser,
+  registerAndLogin,
 }
