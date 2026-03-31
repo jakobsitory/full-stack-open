@@ -4,7 +4,6 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const helper = require('./test_helper')
-const Blog = require('../models/blog')
 const User = require('../models/user')
 
 const api = supertest(app)
@@ -15,112 +14,111 @@ beforeEach(async () => {
 })
 
 describe('test GET', () => {
-    test('users are returned as json', async () => {
-        await api
-            .get('/api/users')
-            .expect(200)
-            .expect('Content-Type', /application\/json/)
-    })
+  test('users are returned as json', async () => {
+    await api
+      .get('/api/users')
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+  })
 
-    test('all users are returned', async () => {
-        const users = await helper.usersInDb()
+  test('all users are returned', async () => {
+    const users = await helper.usersInDb()
 
-        assert.strictEqual(users.length, helper.initialUsers.length)
-    })
+    assert.strictEqual(users.length, helper.initialUsers.length)
+  })
 
-    test('the unique identifier property is named id', async () => {
-        const users = await helper.usersInDb()
+  test('the unique identifier property is named id', async () => {
+    const users = await helper.usersInDb()
 
-        assert(users[0].id | !users[0]._id)
-    })
+    assert(users[0].id | !users[0]._id)
+  })
 
-    test('paswordHash property is not returned', async () => {
-        const users =await helper.usersInDb()
+  test('paswordHash property is not returned', async () => {
+    const users =await helper.usersInDb()
 
-        assert(!users[0].passwordHash)
-    })
+    assert(!users[0].passwordHash)
+  })
 })
 
 describe('test POST', () => {
-    test('a valid user can be added', async () => {
-        const newUser = {
-            username: 'test user',
-            name: 'test author',
-            password: 'userPassword',
-        }
+  test('a valid user can be added', async () => {
+    const newUser = {
+      username: 'test user',
+      name: 'test author',
+      password: 'userPassword',
+    }
 
-        await api
-            .post('/api/users')
-            .send(newUser)
-            .expect(201)
-            .expect('Content-Type', /application\/json/)
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
 
-        const usersAtEnd = await helper.usersInDb()
-        assert.strictEqual(usersAtEnd.length, helper.initialUsers.length + 1)
+    const usersAtEnd = await helper.usersInDb()
+    assert.strictEqual(usersAtEnd.length, helper.initialUsers.length + 1)
 
-        const contents = usersAtEnd.map((n) => n.username)
-        assert(contents.includes('test user'))
-    })
+    const contents = usersAtEnd.map((n) => n.username)
+    assert(contents.includes('test user'))
+  })
 
-    test('a user without username returns 400 Bad Request', async () => {
-        usersAtStart = helper.initialUsers
+  test('a user without username returns 400 Bad Request', async () => {
+    const usersAtStart = helper.initialUsers
 
-        const invalidUser = {
-            username: '',
-            password: 'newPassword',
-        }
+    const invalidUser = {
+      username: '',
+      password: 'newPassword',
+    }
 
-        const result = await api
-            .post('/api/users')
-            .send(invalidUser)
-            .expect(400)
+    const result = await api
+      .post('/api/users')
+      .send(invalidUser)
+      .expect(400)
 
-        const usersAtEnd = await helper.usersInDb()
-        // assert(result.body.error.includes('expected `username` to be unique'))
-        assert(result.body.error.includes('username and password are required'))
+    const usersAtEnd = await helper.usersInDb()
+    // assert(result.body.error.includes('expected `username` to be unique'))
+    assert(result.body.error.includes('username and password are required'))
 
-        assert.strictEqual(usersAtEnd.length, usersAtStart.length)
-    })
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+  })
 
-    test('a user without password returns 400 Bad Request', async () => {
-        usersAtStart = helper.initialUsers
-        
-        const invalidUser = {
-            username: 'newUniqueUserName',
-            password: '',
-        }
+  test('a user without password returns 400 Bad Request', async () => {
+    const usersAtStart = helper.initialUsers
 
-        const result = await api
-            .post('/api/users')
-            .send(invalidUser)
-            .expect(400)
+    const invalidUser = {
+      username: 'newUniqueUserName',
+      password: '',
+    }
 
-        const usersAtEnd = await helper.usersInDb()
-        assert(result.body.error.includes('username and password are required'))
+    const result = await api
+      .post('/api/users')
+      .send(invalidUser)
+      .expect(400)
 
-        assert.strictEqual(usersAtEnd.length, usersAtStart.length)
-    })
+    const usersAtEnd = await helper.usersInDb()
+    assert(result.body.error.includes('username and password are required'))
 
-    test('a user with existing username returns 400 Bad Request', async () => {
-        usersAtStart = helper.initialUsers
-        console.log(usersAtStart)
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+  })
 
-        const invalidUser = {
-            username: usersAtStart[0].username,
-            password: 'whatisthis',
-        }
-        
-        
-        const result = await api
-        .post('/api/users')
-        .send(invalidUser)
-        .expect(400)
+  test('a user with existing username returns 400 Bad Request', async () => {
+    const usersAtStart = helper.initialUsers
+    console.log(usersAtStart)
 
-        const usersAtEnd = await helper.usersInDb()
-        assert(result.body.error.includes('expected `username` to be unique'))
+    const invalidUser = {
+      username: usersAtStart[0].username,
+      password: 'whatisthis',
+    }
 
-        assert.strictEqual(usersAtEnd.length, usersAtStart.length)
-    })
+    const result = await api
+      .post('/api/users')
+      .send(invalidUser)
+      .expect(400)
+
+    const usersAtEnd = await helper.usersInDb()
+    assert(result.body.error.includes('expected `username` to be unique'))
+
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+  })
 })
 
 after(async () => {
