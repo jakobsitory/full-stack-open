@@ -132,20 +132,53 @@ describe('/api/blogs POST', () => {
 })
 
 describe('/api/blogs DELETE', () => {
-  test('with valid id', async () => {
+  test('a valid blog without token cannot be deleted', async () => {
     const id = helper.initialBlogs[0]._id
+
     await api
       .delete(`/api/blogs/${id}`)
-      .expect(204)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+
     const blogsAtEnd = await helper.blogsInDb()
-    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1)
+    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
   })
 
-  test('with invalid id (CastError)', async () => {
-    const id = 'invalid-format'
+  test('a valid blog with valid token can be deleted', async () => {
+    const newBlog = {
+      title: 'test blog',
+      author: 'test author',
+      url: 'www.test.url',
+      likes: 42,
+    }
+
+    const token = await helper.registerAndLogin(api)
+
+    const response = await api
+      .post('/api/blogs')
+      .set('Authorization', 'Bearer ' + token)
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const id = response.body.id
     await api
       .delete(`/api/blogs/${id}`)
-      .expect(400)
+      .set('Authorization', 'Bearer ' + token)
+      .expect(204)
+    const blogsAtEnd = await helper.blogsInDb()
+    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
+  })
+
+  test('an invalid blog with valid token can not be deleted (CastError)', async () => {
+    const id = 'invalid-format'
+
+    const token = await helper.registerAndLogin(api)
+
+    await api
+      .delete(`/api/blogs/${id}`)
+      .set('Authorization', 'Bearer ' + token)
+      .expect(401)
     const blogsAtEnd = await helper.blogsInDb()
     assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
   })

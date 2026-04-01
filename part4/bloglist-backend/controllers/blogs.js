@@ -65,22 +65,18 @@ blogsRouter.delete('/:id', async (request, response) => {
     const blogToDelete = await Blog.findById(id)
     const userOfBlogToDelete = blogToDelete.user._id
 
-    if (userOfBlogToDelete !== user._id)
-      return response.status(401).json({ error: 'user not allowed to delete blog'})
+    if (userOfBlogToDelete.toString() !== user._id.toString())
+      return response.status(401).json({ error: 'user not allowed to delete blog' })
 
-    // const savedBlog = await blog.save()
-    // DELETE BLOG
     await Blog.findByIdAndDelete(id)
 
-    // DELETE REFERENCE TO BLOG FROM USER
     const blogIndex = user.blogs.indexOf(id)
-    if (index > -1) {
-      Array.splice(index, 1)
+    if (blogIndex > -1) {
+      user.blogs.splice(blogIndex, 1)
     }
-    // user.blogs = user.blogs.concat(savedBlog._id)
+
     await user.save()
 
-    // response.status(201).json(savedBlog)
     response.status(204).end()
   } catch (error) {
     response.status(401).json({ error: error.message })
