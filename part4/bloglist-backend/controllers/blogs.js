@@ -9,14 +9,6 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
-const getTokenFrom = (request) => {
-  const authorization = request.get('authorization')
-  if (authorization && authorization.startsWith('Bearer ')) {
-    return authorization.replace('Bearer ', '')
-  }
-  return null
-}
-
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
 
@@ -24,9 +16,8 @@ blogsRouter.post('/', async (request, response) => {
     return response.status(400).json({ error: 'title and url are required' })
 
   try {
-    const token = getTokenFrom(request)
 
-    const decodedToken = jwt.verify(token, config.SECRET)
+    const decodedToken = jwt.verify(request.token, config.SECRET)
     if (!decodedToken.id) {
       return response.status(401).json({ error: 'token invalid' })
     }
@@ -54,7 +45,6 @@ blogsRouter.post('/', async (request, response) => {
     await user.save()
     response.status(201).json(savedBlog)
   } catch (error) {
-    console.error('JWT Error: ', error.message)
     response.status(401).json({ error: error.message })
   }
 })

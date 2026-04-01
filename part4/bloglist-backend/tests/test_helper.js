@@ -69,7 +69,7 @@ const initialUsers = [
   }
 ]
 
-const createValidUser = async () => {
+const createValidUser = () => {
   const validUser = {
     'username': 'validUser',
     'password': 'validPassword'
@@ -79,14 +79,11 @@ const createValidUser = async () => {
 }
 
 const registerAndLogin = async (api) => {
-  const validUser = {
-    'username': 'newValidUser',
-    'password': 'validPassword'
-  }
+  const validUser = createValidUser()
 
   const users = await usersInDb()
   const usernames = users.map((n) => n.username)
-  if (usernames.includes('test user')) {
+  if (!usernames.includes(validUser.username)) {
     await api
       .post('/api/users')
       .send(validUser)
