@@ -59,9 +59,9 @@ describe('/api/blogs POST', () => {
       likes: 42,
     }
 
-    const token = await helper.registerAndLogin(api)
+    const { token, user } = await helper.registerAndLogin(api)
 
-    await api
+    const response = await api
       .post('/api/blogs')
       .set('Authorization', 'Bearer ' + token)
       .send(newBlog)
@@ -73,6 +73,11 @@ describe('/api/blogs POST', () => {
 
     const contents = blogsAtEnd.map((n) => n.url)
     assert(contents.includes('www.test.url'))
+
+    const users = await helper.usersInDb()
+    const owner = users.find(element => element.username === user.username)
+    const blogId = owner.blogs.find((blogId) => blogId.toString() === response.body.id)
+    assert(blogId)
   })
 
   test('a blog without a likes count sets it to 0', async () => {
@@ -82,7 +87,7 @@ describe('/api/blogs POST', () => {
       url: 'www.test.url',
     }
 
-    const token = await helper.registerAndLogin(api)
+    const { token } = await helper.registerAndLogin(api)
 
     const response = await api
       .post('/api/blogs')
@@ -103,7 +108,7 @@ describe('/api/blogs POST', () => {
       likes: 42,
     }
 
-    const token = await helper.registerAndLogin(api)
+    const { token } = await helper.registerAndLogin(api)
 
     await api
       .post('/api/blogs')
@@ -111,6 +116,9 @@ describe('/api/blogs POST', () => {
       .send(newBlog)
       .expect(400)
       .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
   })
 
   test('a blog without url return 400 Bad Request', async () => {
@@ -120,7 +128,7 @@ describe('/api/blogs POST', () => {
       likes: 42,
     }
 
-    const token = await helper.registerAndLogin(api)
+    const { token } = await helper.registerAndLogin(api)
 
     await api
       .post('/api/blogs')
@@ -128,6 +136,9 @@ describe('/api/blogs POST', () => {
       .send(newBlog)
       .expect(400)
       .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
   })
 })
 
@@ -152,7 +163,7 @@ describe('/api/blogs DELETE', () => {
       likes: 42,
     }
 
-    const token = await helper.registerAndLogin(api)
+    const { token, user } = await helper.registerAndLogin(api)
 
     const response = await api
       .post('/api/blogs')
@@ -168,6 +179,11 @@ describe('/api/blogs DELETE', () => {
       .expect(204)
     const blogsAtEnd = await helper.blogsInDb()
     assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
+
+    const users = await helper.usersInDb()
+    const owner = users.find(element => element.username === user.username)
+    const blogId = owner.blogs.find((blogId) => blogId.toString() === id)
+    assert(!blogId)
   })
 
   test('an invalid blog with valid token can not be deleted (CastError)', async () => {

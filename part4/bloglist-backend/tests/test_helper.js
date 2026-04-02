@@ -79,24 +79,24 @@ const createValidUser = () => {
 }
 
 const registerAndLogin = async (api) => {
-  const validUser = createValidUser()
+  const user = createValidUser()
 
   const users = await usersInDb()
   const usernames = users.map((n) => n.username)
-  if (!usernames.includes(validUser.username)) {
+  if (!usernames.includes(user.username)) {
     await api
       .post('/api/users')
-      .send(validUser)
+      .send(user)
       .expect(201)
   }
 
   const loginResponse = await api
     .post('/api/login')
-    .send(validUser)
+    .send(user)
     .expect(200)
   const token = loginResponse.body.token
 
-  return token
+  return { token, user }
 }
 
 const blogsInDb = async () => {
