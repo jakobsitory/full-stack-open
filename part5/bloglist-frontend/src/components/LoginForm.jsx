@@ -60,7 +60,7 @@ const LoginForm = ({ user, setUser }) => {
   return (
     <div>
         {user.username} logged in
-        <button type="submit">logout</button>
+        <button>logout</button>
     </div>
   )
 }

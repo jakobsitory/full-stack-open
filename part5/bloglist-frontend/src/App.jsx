@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
+import LogoutButton from './components/LogoutButton'
 import blogService from './services/blogs'
 
 const App = () => {
@@ -11,6 +12,15 @@ const App = () => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
+  }, [])
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
   }, [])
 
   if (user === null) {
@@ -27,6 +37,10 @@ const App = () => {
       <h2>blogs</h2>
       <div>
         {user.username} logged in
+        <LogoutButton 
+          user={user}
+          setUser={setUser}/>
+        {/* <button onClick={logoutService.logout(user, setUser)}>logout</button> */}
         <br/>
         <br/>
       </div>
