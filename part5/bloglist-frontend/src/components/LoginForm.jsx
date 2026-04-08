@@ -2,10 +2,10 @@ import { useState } from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 
-const LoginForm = ({ user, setUser }) => {
+const LoginForm = ({ user, setUser, setNotificationMessage }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-    
+
   const handleLogin = async event => {
     event.preventDefault()
 
@@ -19,12 +19,17 @@ const LoginForm = ({ user, setUser }) => {
       setUser(user)
       setUsername('')
       setPassword('')
+      setNotificationMessage(prev => ({ ...prev.notificationMessage, 
+        show: true, 
+        type: 'success', 
+        message: (`${user.username} successfully logged in`)})
+      )
     } catch {
-        console.error('wrong credentials')
-    //   setErrorMessage('wrong credentials')
-    //   setTimeout(() => {
-    //     setErrorMessage(null)
-    //   }, 5000)
+      setNotificationMessage(prev => ({ ...prev.notificationMessage, 
+        show: true, 
+        type: 'error', 
+        message: ('wrong credentials')})
+      )
     }
   }
 

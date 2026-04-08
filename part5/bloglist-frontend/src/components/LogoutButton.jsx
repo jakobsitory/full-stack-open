@@ -1,24 +1,30 @@
-const LogoutButton = ({ user, setUser }) => {
+const LogoutButton = ({ user, setUser, setNotificationMessage }) => {
     
   const handleLogout = async event => {
     event.preventDefault()
+    if (user === null)
+      return
+    const username = user.username
+
+    if (!confirm(`Do you relly want to log out? ${username}`)) 
+      return
 
     try {
-        if (user === null)
-            return
-            
-        if (!confirm(`Do you relly want to log out?`)) 
-            return
 
-        window.localStorage.removeItem('loggedNoteappUser')
-        window.localStorage.clear()
-        setUser(null)
+      window.localStorage.removeItem('loggedNoteappUser')
+      window.localStorage.clear()
+      setUser(null)
+      setNotificationMessage(prev => ({ ...prev.notificationMessage, 
+        show: true, 
+        type: 'success', 
+        message: (`${username} successfully logged out`)})
+      )
     } catch {
-        console.error('error while logout')
-    //   setErrorMessage('wrong credentials')
-    //   setTimeout(() => {
-    //     setErrorMessage(null)
-    //   }, 5000)
+      setNotificationMessage(prev => ({ ...prev.notificationMessage, 
+        show: true, 
+        type: 'error', 
+        message: (`There was an error, while logging out ${username}`)})
+      )
     }
   }
 
