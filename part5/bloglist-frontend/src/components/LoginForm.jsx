@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import loginService from '../services/login'
+import blogService from '../services/blogs'
 
 const LoginForm = ({ user, setUser }) => {
   const [username, setUsername] = useState('')
@@ -14,7 +15,7 @@ const LoginForm = ({ user, setUser }) => {
       window.localStorage.setItem(
         'loggedNoteappUser', JSON.stringify(user)
       )
-    //   noteService.setToken(user.token)
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -30,37 +31,37 @@ const LoginForm = ({ user, setUser }) => {
 
   if (user === null)
     return (
-        <div>
+      <div>
         <h2>log in to application</h2>
         <form onSubmit={handleLogin}>
-            <div>
+          <div>
             <label>
-                username
-                <input
-                    type="text"
-                    value={username}
-                    onChange={({ target }) => setUsername(target.value)}
+              username
+              <input
+                type="text"
+                value={username}
+                onChange={({ target }) => setUsername(target.value)}
                 />
             </label>
-            </div>
-            <div>
+          </div>
+          <div>
             <label>
-                password
-                <input
+              password
+              <input
                 type="password"
                 value={password}
                 onChange={({ target }) => setPassword(target.value)}
-                />
+              />
             </label>
-            </div>
-            <button type="submit">login</button>
+          </div>
+          <button type="submit">login</button>
         </form>
-        </div>
+      </div>
     )
   return (
     <div>
-        {user.username} logged in
-        <button>logout</button>
+      {user.username} logged in
+      <button>logout</button>
     </div>
   )
 }
