@@ -13,20 +13,26 @@ const App = () => {
     )  
   }, [])
 
-  const BlogList = () => {
-    <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-  }
-
-  return (
-    <div>
-      {user && BlogList()}
+  if (user === null) {
+    return (
       <LoginForm
         user={user}
         setUser={setUser}
       />
+    )
+  }
+
+  return (
+    <div>
+      <h2>blogs</h2>
+      <div>
+        {user.username} logged in
+        <br/>
+        <br/>
+      </div>
+      {blogs.map(blog =>
+        <Blog key={blog.id} blog={blog} />
+      )}
     </div>
   )
 }
