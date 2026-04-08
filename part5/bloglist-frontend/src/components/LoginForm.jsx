@@ -19,16 +19,16 @@ const LoginForm = ({ user, setUser, setNotificationMessage }) => {
       setUser(user)
       setUsername('')
       setPassword('')
-      setNotificationMessage(prev => ({ ...prev.notificationMessage, 
-        show: true, 
-        type: 'success', 
-        message: (`${user.username} successfully logged in`)})
+      setNotificationMessage(prev => ({ ...prev.notificationMessage,
+        show: true,
+        type: 'success',
+        message: `${user.username} successfully logged in` })
       )
     } catch {
-      setNotificationMessage(prev => ({ ...prev.notificationMessage, 
-        show: true, 
-        type: 'error', 
-        message: ('wrong credentials')})
+      setNotificationMessage(prev => ({ ...prev.notificationMessage,
+        show: true,
+        type: 'error',
+        message: 'wrong credentials' })
       )
     }
   }
@@ -45,8 +45,7 @@ const LoginForm = ({ user, setUser, setNotificationMessage }) => {
               <input
                 type="text"
                 value={username}
-                onChange={({ target }) => setUsername(target.value)}
-                />
+                onChange={({ target }) => setUsername(target.value)} />
             </label>
           </div>
           <div>
@@ -55,8 +54,7 @@ const LoginForm = ({ user, setUser, setNotificationMessage }) => {
               <input
                 type="password"
                 value={password}
-                onChange={({ target }) => setPassword(target.value)}
-              />
+                onChange={({ target }) => setPassword(target.value)} />
             </label>
           </div>
           <button type="submit">login</button>

@@ -20,7 +20,7 @@ const create = async newObject => {
   return response.data
 }
 
-export default { 
+export default {
   getAll,
   create,
   setToken,

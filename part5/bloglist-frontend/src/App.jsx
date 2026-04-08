@@ -9,16 +9,16 @@ import blogService from './services/blogs'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-	const [notificationMessage, setNotificationMessage] = useState({
-		show: false,
-		type: '',
-		message: 'INITIAL NOTIFICATION',
-	})
+  const [notificationMessage, setNotificationMessage] = useState({
+    show: false,
+	  type: '',
+    message: 'INITIAL NOTIFICATION',
+  })
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const App = () => {
           <h2>blogs</h2>
           <div>
             {user.username} logged in
-            <LogoutButton 
+            <LogoutButton
               user={user}
               setUser={setUser}
               setNotificationMessage={setNotificationMessage}/>
@@ -60,25 +60,6 @@ const App = () => {
       )}
     </div>
   )
-
-  // return (
-  //   <div>
-  //     <h2>blogs</h2>
-  //     <div>
-  //       {user.username} logged in
-  //       <LogoutButton 
-  //         user={user}
-  //         setUser={setUser}
-  //         setNotificationMessage={setNotificationMessage}/>
-  //       <br/>
-  //       <br/>
-  //     </div>
-  //     <CreateBlogForm setBlogs={setBlogs} setNotificationMessage={setNotificationMessage}/>
-  //     {blogs.map(blog =>
-  //       <Blog key={blog.id} blog={blog} />
-  //     )}
-  //   </div>
-  // )
 }
 
 export default App

@@ -3,11 +3,11 @@ import blogService from '../services/blogs'
 
 const CreateBlogForm = ({ setBlogs, setNotificationMessage }) => {
   const [newBlog, setNewBlog] = useState({
-      title: '',
-      author: '',
-      url: ''
-    })
-  
+    title: '',
+    author: '',
+    url: ''
+  })
+
   const FormFilled = newBlog.title && newBlog.author && newBlog.url
 
   const handleChange = (field) => (event) => {
@@ -23,18 +23,18 @@ const CreateBlogForm = ({ setBlogs, setNotificationMessage }) => {
       setNewBlog({
         title: '',
         author: '',
-        url: ''})
-      setNotificationMessage(prev => ({ ...prev.notificationMessage, 
-        show: true, 
-        type: 'success', 
-        message: (`Added new blog '${newBlog.title}' from '${newBlog.author}'`)})
+        url: ''
+      })
+      setNotificationMessage(prev => ({ ...prev.notificationMessage,
+        show: true,
+        type: 'success',
+        message: (`Added new blog '${newBlog.title}' from '${newBlog.author}'`) })
       )
     } catch {
-      setNotificationMessage(prev => ({ ...prev.notificationMessage, 
-        show: true, 
-        type: 'error', 
-        message: `Error when adding new blog. Please try again`}
-      )
+      setNotificationMessage(prev => ({ ...prev.notificationMessage,
+        show: true,
+        type: 'error',
+        message: 'Error when adding new blog. Please try again' })
       )
     }
   }
