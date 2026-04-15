@@ -27,9 +27,9 @@ const App = () => {
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
     if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      blogService.setToken(user.token)
+      const loggedUser = JSON.parse(loggedUserJSON)
+      setUser(loggedUser)
+      blogService.setToken(loggedUser.token)
     }
   }, [])
 
@@ -58,7 +58,7 @@ const App = () => {
             <CreateBlogForm setBlogs={setBlogs} setNotificationMessage={setNotificationMessage}/>
           </Togglable>
           {sortedBlogs.map(blog =>
-            <Blog key={blog.id} blog={blog} setBlogs={setBlogs}/>
+            <Blog key={blog.id} blog={blog} setBlogs={setBlogs} userId={user.id}/>
           )}
         </div>
       )}
