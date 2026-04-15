@@ -16,6 +16,8 @@ const App = () => {
     message: 'INITIAL NOTIFICATION',
   })
 
+  blogs.sort((a, b) => b.likes - a.likes)
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
