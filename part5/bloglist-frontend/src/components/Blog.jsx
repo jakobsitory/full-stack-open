@@ -1,20 +1,12 @@
 import Togglable from './Togglable'
-import { useState, useImperativeHandle } from 'react'
+import { useState } from 'react'
 
-// const Blog = ({ blog }) => (
-//   <div>
-//     {blog.title} 
-//     <Togglable buttonLabel={'view'}>
-//       · {blog.author}
-//     </Togglable>
-//   </div>
-// )
 const blogStyle = {
-  borderStyle: 'solid',
-  borderRadius: '5px',
-  space: '2px',
-  padding: '10px',
-  marginBottom: '10px',
+  paddingTop: 10,
+  paddingLeft: 2,
+  border: 'solid',
+  borderWidth: 1,
+  marginBottom: 5,
 }
 
 const Blog = (props) => {
@@ -25,10 +17,6 @@ const Blog = (props) => {
   const toggleVisibility = () => {
     setVisible(!visible)
   }
-
-  useImperativeHandle(props.ref, () => {
-    return { toggleVisibility }
-  })
 
   return (
     <div style={blogStyle}>
