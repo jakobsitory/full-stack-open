@@ -39,7 +39,6 @@ const CreateBlogForm = ({ setBlogs, setNotificationMessage }) => {
     }
   }
 
-
   return (
     <div>
       <h2>create new</h2>
