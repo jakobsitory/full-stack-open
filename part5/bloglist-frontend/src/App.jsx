@@ -51,7 +51,6 @@ const App = () => {
               setUser={setUser}
               setNotificationMessage={setNotificationMessage}/>
             <br/>
-            <br/>
           </div>
           <Togglable buttonLabel={'create new blog'}>
             <CreateBlogForm setBlogs={setBlogs} setNotificationMessage={setNotificationMessage}/>

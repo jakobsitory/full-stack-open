@@ -25,13 +25,13 @@ const CreateBlogForm = ({ setBlogs, setNotificationMessage }) => {
         author: '',
         url: ''
       })
-      setNotificationMessage(prev => ({ ...prev.notificationMessage,
+      setNotificationMessage(prev => ({ ...prev,
         show: true,
         type: 'success',
         message: (`Added new blog '${newBlog.title}' from '${newBlog.author}'`) })
       )
     } catch {
-      setNotificationMessage(prev => ({ ...prev.notificationMessage,
+      setNotificationMessage(prev => ({ ...prev,
         show: true,
         type: 'error',
         message: 'Error when adding new blog. Please try again' })
