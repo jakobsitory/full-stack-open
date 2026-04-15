@@ -16,7 +16,7 @@ const App = () => {
     message: 'INITIAL NOTIFICATION',
   })
 
-  blogs.sort((a, b) => b.likes - a.likes)
+  const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -57,8 +57,8 @@ const App = () => {
           <Togglable buttonLabel={'create new blog'}>
             <CreateBlogForm setBlogs={setBlogs} setNotificationMessage={setNotificationMessage}/>
           </Togglable>
-          {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+          {sortedBlogs.map(blog =>
+            <Blog key={blog.id} blog={blog} setBlogs={setBlogs}/>
           )}
         </div>
       )}

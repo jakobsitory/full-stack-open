@@ -14,8 +14,6 @@ const blogStyle = {
 
 const Blog = (props) => {
   const [visible, setVisible] = useState(false)
-  const [blog, setBlog] = useState(props.blog)
-
   const showWhenVisible = { display: visible ? '' : 'none' }
 
   const toggleVisibility = () => {
@@ -25,24 +23,26 @@ const Blog = (props) => {
   const increaseLikes = async (event) => {
     event.preventDefault()
 
-    const blogUpdate = blog
-    blogUpdate.user = blogUpdate.user.id
-    blogUpdate.likes += 1
+    const blogUpdate = {
+      ...props.blog,
+      user: props.blog.user.id,
+      likes : props.blog.likes + 1
+    }
 
     const updatedBlog = await blogService.update(blogUpdate)
-    setBlog(updatedBlog)
+    props.setBlogs(prev => prev.map(blog => (blog.id === updatedBlog.id ? updatedBlog : blog)))
   }
 
   return (
     <div style={blogStyle}>
-      {blog.title + ' • ' + blog.author + ' '}
+      {props.blog.title + ' • ' + props.blog.author + ' '}
       <button onClick={toggleVisibility}>
         {visible ? 'hide' : 'show'}
       </button>
       <div style={showWhenVisible}>
         <div>{props.blog.url}</div>
         <div>
-          likes: {blog.likes}
+          likes: {props.blog.likes}
           <button onClick={increaseLikes}>like</button>
         </div>
         <div></div>
