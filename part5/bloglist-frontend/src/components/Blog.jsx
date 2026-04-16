@@ -16,9 +16,6 @@ const Blog = (props) => {
   const [visible, setVisible] = useState(false)
   const showWhenVisible = { display: visible ? '' : 'none' }
 
-  console.log('props.blog.user.id: ', props.blog.user.id)
-  console.log('props.blog.user.id: ', props.userId)
-
   const toggleVisibility = () => {
     setVisible(!visible)
   }
@@ -33,8 +30,7 @@ const Blog = (props) => {
     }
 
     const updatedBlog = await blogService.update(blogUpdate)
-    const normalizedBlog = { ...updatedBlog, user: props.blog.user }
-    props.setBlogs(prev => prev.map(blog => (blog.id === normalizedBlog.id ? normalizedBlog : blog)))
+    props.setBlogs(prev => prev.map(blog => (blog.id === updatedBlog.id ? updatedBlog : blog)))
   }
 
   const removeBlog = async (event) => {
@@ -60,7 +56,7 @@ const Blog = (props) => {
           likes: {props.blog.likes}
           <button onClick={increaseLikes}>like</button>
         </div>
-        {(props.blog.user.id === props.userId) && (
+        {(props.blog.user.id === props.user.id) && (
           <div>
             <button onClick={removeBlog}>remove</button>
           </div>
