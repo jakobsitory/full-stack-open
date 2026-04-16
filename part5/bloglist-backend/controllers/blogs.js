@@ -84,7 +84,7 @@ blogsRouter.put('/:id', async (request, response) => {
   blog.author = blogData.author ?? blog.author
   blog.url = blogData.url ?? blog.url
   blog.likes = blogData.likes ?? blog.likes
-  
+
   await blog.save()
   await blog.populate('user', { username: 1, name: 1, id: 1 })
   response.json(blog)
