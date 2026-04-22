@@ -47,7 +47,7 @@ const App = () => {
         <div>
           <h2>blogs</h2>
           <div>
-            {user.username} logged in
+            {user.name} logged in
             <LogoutButton
               user={user}
               setUser={setUser}

@@ -63,7 +63,7 @@ const LoginForm = ({ user, setUser, setNotificationMessage }) => {
     )
   return (
     <div>
-      {user.username} logged in
+      {user.name} logged in
       <button>logout</button>
     </div>
   )
