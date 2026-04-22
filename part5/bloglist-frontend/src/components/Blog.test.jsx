@@ -63,15 +63,15 @@ describe('<Blog />', () => {
 
     const urlElement = await screen.getByText(blog.url, { exact: false })
     const likesElement = await screen.getByText(blog.likes, { exact: false })
-    
+
     expect(urlElement).toBeVisible()
     expect(likesElement).toBeVisible()
-})
+  })
 
-test('5.14 clicking like button triggers a function', async () => {
-    
+  test('5.14 clicking like button triggers a function', async () => {
+
     const user = userEvent.setup()
-    
+
     const likeButtonElement = screen.getByText('like')
     await user.click(likeButtonElement)
     await user.click(likeButtonElement)

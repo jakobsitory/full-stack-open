@@ -68,5 +68,5 @@ describe('<CreateBlogForm />', () => {
 
     expect(setBlogs.mock.calls).toHaveLength(1)
     expect(setNotificationMessage.mock.calls).toHaveLength(1)
-})
+  })
 })
