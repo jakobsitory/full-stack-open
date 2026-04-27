@@ -12,6 +12,13 @@ describe('Bloglist App', () => {
         password: 'testpassword'
       }
     })
+    await request.post('/api/users', {
+      data: {
+        name: 'Test User 2',
+        username: 'testuser2',
+        password: 'testpassword2'
+      }
+    })
 
     await page.goto('/')
   })
@@ -92,14 +99,21 @@ describe('Login', () => {
       
       page.on('dialog', dialog => dialog.accept());
       await page.getByRole('button', { name: 'remove' }).click()
-
+      
       await expect(page.getByText('testblog • testauthor')).not.toBeVisible()
     })
-
-  //   test('a blog created by another user cannot be deleted', async ({ page }) => {
-  //     await createBlog(page, 'testblog', 'testauthor', 'testurl')
+    
+    test('a blog created by another user cannot be deleted', async ({ page }) => {
+      await createBlog(page, 'testblog', 'testauthor', 'testurl')
       
-  //   })
+      page.on('dialog', dialog => dialog.accept());
+      await page.getByRole('button', { name: 'logout' }).click()      
+      
+      await loginWith(page, 'testuser2', 'testpassword2')
+      await expect(page.getByText('testblog • testauthor')).toBeVisible()
+      await page.getByRole('button', { name: 'show' }).click()
+      await expect(page.getByRole('button', { name: 'remove' })).not.toBeVisible()
+    })
 
   //   test('blog list is sorted descending by no of likes', async ({ page }) => {
       
