@@ -23,14 +23,26 @@ const Blog = (props) => {
   const increaseLikes = async (event) => {
     event.preventDefault()
 
-    const blogUpdate = {
-      ...props.blog,
-      user: props.blog.user.id,
-      likes : props.blog.likes + 1
-    }
+    const newLikes = props.blog.likes + 1
 
-    const updatedBlog = await blogService.update(blogUpdate)
-    props.setBlogs(prev => prev.map(blog => (blog.id === updatedBlog.id ? updatedBlog : blog)))
+    props.setBlogs(prev => prev.map(blog =>
+      blog.id === props.blog.id ? { ...blog, likes: newLikes } : blog
+    ))
+
+    try {
+      const blogUpdate = {
+        ...props.blog,
+        user: props.blog.user.id,
+        likes: newLikes
+      }
+
+      await blogService.update(blogUpdate)
+    } catch (error) {
+      props.setBlogs(prev => prev.map(blog =>
+        blog.id === props.blog.id ? { ...blog, likes: props.blog.likes } : blog
+      ))
+      console.error('Failed to update likes:', error)
+    }
   }
 
   const removeBlog = async (event) => {
