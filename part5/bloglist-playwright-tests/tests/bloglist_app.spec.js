@@ -23,7 +23,7 @@ describe('Bloglist App', () => {
     await page.goto('/')
   })
 
-  test('Login form is shown', async ({ page }) => {
+  test('5.17 Login form is shown', async ({ page }) => {
 
     await expect(page.getByText('log in to application')).toBeVisible()
     await expect(page.getByLabel('username')).toBeVisible()
@@ -31,7 +31,7 @@ describe('Bloglist App', () => {
     await expect(page.getByRole('button', { name: 'login' })).toBeVisible()
 })
 
-describe('Login', () => {
+describe('5.18 Login', () => {
     test('fails with wrong credentials', async ({ page }) => {
         await loginWith(page, 'testuser', 'wrong')
         
@@ -70,7 +70,7 @@ describe('Login', () => {
       await expect(page.getByRole('button', { name: 'login' })).toBeVisible()
     })
 
-    test('new blog can be created', async ({ page }) => {
+    test('5.19 new blog can be created', async ({ page }) => {
       await createBlog(page, 'testblog', 'testauthor', 'testurl')
 
       const successDiv = page.locator('.success')
@@ -82,14 +82,14 @@ describe('Login', () => {
       await expect(page.getByRole('button', { name: 'show' })).toBeVisible()
     })
 
-    test('blog cannot be liked if it is collapsed', async ({ page }) => {
+    test('5.20 blog cannot be liked if it is collapsed', async ({ page }) => {
       await createBlog(page, 'testblog', 'testauthor', 'testurl')
 
       const successDiv = page.locator('.success')
       await expect(page.getByRole('button', { name: 'like' })).not.toBeVisible()
     })
     
-    test('blog can be liked after it is expanded', async ({ page }) => {
+    test('5.20 blog can be liked after it is expanded', async ({ page }) => {
       await createBlog(page, 'testblog', 'testauthor', 'testurl')
 
       await page.getByRole('button', { name: 'show' }).click()
@@ -101,7 +101,7 @@ describe('Login', () => {
       }
     })
 
-    test('blog created by the logged-in user can be deleted', async ({ page }) => {
+    test('5.21 blog created by the logged-in user can be deleted', async ({ page }) => {
       await createBlog(page, 'testblog', 'testauthor', 'testurl')
       await expect(page.getByText('testblog • testauthor')).toBeVisible()
 
@@ -112,7 +112,7 @@ describe('Login', () => {
       await expect(page.getByText('testblog • testauthor')).not.toBeVisible()
     })
     
-    test('a blog created by another user cannot be deleted', async ({ page }) => {
+    test('5.22 a blog created by another user cannot be deleted', async ({ page }) => {
       await createBlog(page, 'testblog', 'testauthor', 'testurl')
 
       page.on('dialog', dialog => dialog.accept());
@@ -124,7 +124,7 @@ describe('Login', () => {
       await expect(page.getByRole('button', { name: 'remove' })).not.toBeVisible()
     })
 
-  //   test('blog list is sorted descending by no of likes', async ({ page }) => {
+  //   test('5.23 blog list is sorted descending by no of likes', async ({ page }) => {
       
   //   })
   })
