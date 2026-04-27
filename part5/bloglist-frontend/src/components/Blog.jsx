@@ -45,7 +45,7 @@ const Blog = (props) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} data-testid='blog'>
       {props.blog.title + ' • ' + props.blog.author + ' '}
       <button onClick={toggleVisibility}>
         {visible ? 'hide' : 'show'}
