@@ -59,8 +59,18 @@ describe('Login', () => {
     beforeEach(async ({ page }) => {
       await loginWith(page, 'testuser', 'testpassword')
     })
-    
-    test('a new blog can be created', async ({ page }) => {
+
+    test('user can logout', async ({ page }) => {
+      page.on('dialog', dialog => dialog.accept());
+      await page.getByRole('button', { name: 'logout' }).click()
+
+      await expect(page.getByText('log in to application')).toBeVisible()
+      await expect(page.getByLabel('username')).toBeVisible()
+      await expect(page.getByLabel('password')).toBeVisible()
+      await expect(page.getByRole('button', { name: 'login' })).toBeVisible()
+    })
+
+    test('new blog can be created', async ({ page }) => {
       await createBlog(page, 'testblog', 'testauthor', 'testurl')
 
       const successDiv = page.locator('.success')
@@ -72,14 +82,14 @@ describe('Login', () => {
       await expect(page.getByRole('button', { name: 'show' })).toBeVisible()
     })
 
-    test('a blog cannot be liked if it is collapsed', async ({ page }) => {
+    test('blog cannot be liked if it is collapsed', async ({ page }) => {
       await createBlog(page, 'testblog', 'testauthor', 'testurl')
 
       const successDiv = page.locator('.success')
       await expect(page.getByRole('button', { name: 'like' })).not.toBeVisible()
     })
     
-    test('a blog can be liked after it is expanded', async ({ page }) => {
+    test('blog can be liked after it is expanded', async ({ page }) => {
       await createBlog(page, 'testblog', 'testauthor', 'testurl')
 
       await page.getByRole('button', { name: 'show' }).click()
@@ -91,12 +101,11 @@ describe('Login', () => {
       }
     })
 
-    test('a blog created by the logged-in user can be deleted', async ({ page }) => {
+    test('blog created by the logged-in user can be deleted', async ({ page }) => {
       await createBlog(page, 'testblog', 'testauthor', 'testurl')
       await expect(page.getByText('testblog • testauthor')).toBeVisible()
 
       await page.getByRole('button', { name: 'show' }).click()
-      
       page.on('dialog', dialog => dialog.accept());
       await page.getByRole('button', { name: 'remove' }).click()
       
@@ -105,7 +114,7 @@ describe('Login', () => {
     
     test('a blog created by another user cannot be deleted', async ({ page }) => {
       await createBlog(page, 'testblog', 'testauthor', 'testurl')
-      
+
       page.on('dialog', dialog => dialog.accept());
       await page.getByRole('button', { name: 'logout' }).click()      
       
