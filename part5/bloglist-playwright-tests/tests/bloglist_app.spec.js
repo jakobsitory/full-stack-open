@@ -95,7 +95,7 @@ describe('5.18 Login', () => {
       await page.getByRole('button', { name: 'show' }).click()
       await expect(page.getByText('likes: 0')).toBeVisible()
 
-      for(let i = 0; i < 5; i++) {
+      for(let i = 1; i < 5; i++) {
         await page.getByRole('button', { name: 'like' }).click()
         await expect(page.getByText(`likes: ${i}`)).toBeVisible()
       }
@@ -111,7 +111,7 @@ describe('5.18 Login', () => {
       
       await expect(page.getByText('testblog • testauthor')).not.toBeVisible()
     })
-    
+
     test('5.22 a blog created by another user cannot be deleted', async ({ page }) => {
       await createBlog(page, 'testblog', 'testauthor', 'testurl')
 
@@ -123,40 +123,38 @@ describe('5.18 Login', () => {
       await page.getByRole('button', { name: 'show' }).click()
       await expect(page.getByRole('button', { name: 'remove' })).not.toBeVisible()
     })
-    
+
     test('5.23 blog list is sorted descending by no of likes', async ({ page }) => {
-      await createBlog(page, 'second-most-liked', 'testauthor', 'testurl')
-      await page.getByRole('button', { name: 'cancel' }).click()
-      await expect(page.getByText(`second-most-liked • testauthor`)).toBeVisible()
-      
-      await createBlog(page, 'least-liked', 'testauthor', 'testurl')
-      await page.getByRole('button', { name: 'cancel' }).click()
-      await expect(page.getByText(`least-liked • testauthor`)).toBeVisible()
-      
-      await createBlog(page, 'most-liked', 'testauthor', 'testurl')
-      await page.getByRole('button', { name: 'cancel' }).click()
-      await expect(page.getByText(`most-liked • testauthor`)).toBeVisible()
+      const blogsToCreate = [ ['least', 1],
+                              ['most', 13],
+                              ['second', 6]]
+
+      for (let i = 0; i < blogsToCreate.length; i++) {
+        let title = blogsToCreate[i][0]
+        await createBlog(page, title, 'testauthor', 'testurl')
+        await expect(page.getByText(`${title} • testauthor`)).toBeVisible()
+        await page.getByRole('button', { name: 'cancel' }).click()
+      }
 
       const blogs = page.getByTestId('blog')
 
-      await blogs.filter({ hasText: 'most-liked' }).getByRole( 'button', { name: 'show' }).click()
-      for (let i= 0; i < 3; i++) {
-        await blogs.filter({ hasText: 'most-liked' }).getByRole( 'button', { name: 'like' }).click()
+      for (let i = 0; i < blogsToCreate.length; i++) {
+        let title = blogsToCreate[i][0]
+        let likes = blogsToCreate[i][1]
+        let blog = await blogs.filter({ hasText: title })
+
+        await blog.getByRole( 'button', { name: 'show' }).click()
+        for (let j = 1; j <= likes; j++) {
+          await blog.getByRole( 'button', { name: 'like' }).click()
+          await expect(blog.getByText(`likes: ${j}`)).toBeVisible()
+        }
       }
 
-      await blogs.filter({ hasText: 'second-most-liked' }).getByRole( 'button', { name: 'show' }).click()
-      for (let i= 0; i < 2; i++) {
-        await blogs.filter({ hasText: 'second-most-liked' }).getByRole( 'button', { name: 'like' }).click()
+      blogsToCreate.sort((a, b) => b[1] - a[1])
+      for (let i = 0; i < blogsToCreate.length; i++) {
+        await expect(blogs.nth(i)).toContainText(blogsToCreate[i][0])
+        await expect(blogs.nth(i)).toContainText('likes: ' + blogsToCreate[i][1])
       }
-
-      await blogs.filter({ hasText: 'least-liked' }).getByRole( 'button', { name: 'show' }).click()
-      for (let i= 0; i < 1; i++) {
-        await blogs.filter({ hasText: 'least-liked' }).getByRole( 'button', { name: 'like' }).click()
-      }
-
-      await expect(blogs.nth(0)).toContainText('most-liked')
-      await expect(blogs.nth(1)).toContainText('second-most-liked')
-      await expect(blogs.nth(2)).toContainText('least-liked')
     })
   })
 })
