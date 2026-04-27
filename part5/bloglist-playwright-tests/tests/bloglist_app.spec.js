@@ -74,20 +74,27 @@ describe('Login', () => {
     
     test('a blog can be liked after it is expanded', async ({ page }) => {
       await createBlog(page, 'testblog', 'testauthor', 'testurl')
-      
+
       await page.getByRole('button', { name: 'show' }).click()
       await expect(page.getByText('likes: 0')).toBeVisible()
-      
+
       for(let i = 0; i <= 4; i++) {
         await page.getByRole('button', { name: 'like' }).click()
         await expect(page.getByText(`likes: ${i}`)).toBeVisible()
       }
     })
 
-  //   test('a blog created by the logged-in user can be deleted', async ({ page }) => {
-  //     await createBlog(page, 'testblog', 'testauthor', 'testurl')
+    test('a blog created by the logged-in user can be deleted', async ({ page }) => {
+      await createBlog(page, 'testblog', 'testauthor', 'testurl')
+      await expect(page.getByText('testblog • testauthor')).toBeVisible()
+
+      await page.getByRole('button', { name: 'show' }).click()
       
-  //   })
+      page.on('dialog', dialog => dialog.accept());
+      await page.getByRole('button', { name: 'remove' }).click()
+
+      await expect(page.getByText('testblog • testauthor')).not.toBeVisible()
+    })
 
   //   test('a blog created by another user cannot be deleted', async ({ page }) => {
   //     await createBlog(page, 'testblog', 'testauthor', 'testurl')
