@@ -15,8 +15,8 @@ const blogStyle = {
 
 const Blog = (props) => {
   const navigate = useNavigate()
-  const id = props.blog.id
-  const blog = props.blog ? props.blog : props.blogs.find(n => n.id === id)
+  const id = props.blog ? props.blog.id : null
+  const blog = props.blog ? props.blog : id ? props.blogs.find(n => n.id === id) : null
 
   const increaseLikes = async (event) => {
     event.preventDefault()
@@ -56,6 +56,11 @@ const Blog = (props) => {
     navigate('/')
   }
 
+
+  if (!blog) {
+    return(<></>)
+  }
+
   return (
     <div style={blogStyle} data-testid='blog'>
       <h1>{blog.author}: {blog.title}</h1>
@@ -66,7 +71,7 @@ const Blog = (props) => {
           <button onClick={increaseLikes}>like</button>
         )}
       </div>
-      {(props.user && props.blog.user.id === props.user.id) && (
+      {(props.user && blog.user.id === props.user.id) && (
         <div>
           <button onClick={removeBlog}>remove</button>
         </div>
