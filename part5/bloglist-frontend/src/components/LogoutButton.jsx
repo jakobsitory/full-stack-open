@@ -1,4 +1,7 @@
+import { useNavigate } from 'react-router-dom'
+
 const LogoutButton = ({ user, setUser, setNotificationMessage }) => {
+  const navigate = useNavigate()
 
   const handleLogout = async event => {
     event.preventDefault()
@@ -18,6 +21,7 @@ const LogoutButton = ({ user, setUser, setNotificationMessage }) => {
         type: 'success',
         message: `${username} successfully logged out` })
       )
+      navigate('/')
     } catch {
       setNotificationMessage(prev => ({ ...prev.notificationMessage,
         show: true,

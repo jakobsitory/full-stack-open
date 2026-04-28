@@ -70,7 +70,7 @@ const App = () => {
 
       <Routes>
         <Route path='/blogs/:id' element={
-          <Blog blog={blog} setBlogs={setBlogs} user={user}/>
+          <Blog blog={blog} blogs={blogs} setBlogs={setBlogs} user={user}/>
         } />
         <Route path='/create' element={
           <CreateBlogForm/>
@@ -84,13 +84,13 @@ const App = () => {
         } />
         <Route path='/' element={
           <div>
-            <h2>blogs</h2>
+            <h2>Blogs</h2>
             {/* <Togglable buttonLabel={'create new blog'}>
               <CreateBlogForm setBlogs={setBlogs} setNotificationMessage={setNotificationMessage}/>
             </Togglable> */}
             <ul>
               {sortedBlogs.map(blog =>
-                <li>
+                <li key={blog.id}>
                   <Link to={`/blogs/${blog.id}`}>{blog.title} by {blog.author}</Link>
                 </li>
                 // <Blog key={blog.id} blog={blog} setBlogs={setBlogs} user={user}/>
@@ -102,36 +102,36 @@ const App = () => {
       {/* <Footer /> */}
     </div>
 
-    // </Router>
-    // <div>
-    //   <Notification content={notificationMessage} setNotificationMessage={setNotificationMessage}/>
-    //   {user === null && (
-    //     <LoginForm
-    //       user={user}
-    //       setUser={setUser}
-    //       setNotificationMessage={setNotificationMessage}
-    //     />
-    //   )}
-    //   {user !== null && (
-    //     <div>
-    //       <h2>blogs</h2>
-    //       <div>
-    //         {user.name} logged in
-    //         <LogoutButton
-    //           user={user}
-    //           setUser={setUser}
-    //           setNotificationMessage={setNotificationMessage}/>
-    //         <br/>
-    //       </div>
-    //       <Togglable buttonLabel={'create new blog'}>
-    //         <CreateBlogForm setBlogs={setBlogs} setNotificationMessage={setNotificationMessage}/>
-    //       </Togglable>
-    //       {sortedBlogs.map(blog =>
-    //         <Blog key={blog.id} blog={blog} setBlogs={setBlogs} user={user}/>
-    //       )}
-    //     </div>
-    //   )}
-    // </div>
+  // </Router>
+  // <div>
+  //   <Notification content={notificationMessage} setNotificationMessage={setNotificationMessage}/>
+  //   {user === null && (
+  //     <LoginForm
+  //       user={user}
+  //       setUser={setUser}
+  //       setNotificationMessage={setNotificationMessage}
+  //     />
+  //   )}
+  //   {user !== null && (
+  //     <div>
+  //       <h2>blogs</h2>
+  //       <div>
+  //         {user.name} logged in
+  //         <LogoutButton
+  //           user={user}
+  //           setUser={setUser}
+  //           setNotificationMessage={setNotificationMessage}/>
+  //         <br/>
+  //       </div>
+  //       <Togglable buttonLabel={'create new blog'}>
+  //         <CreateBlogForm setBlogs={setBlogs} setNotificationMessage={setNotificationMessage}/>
+  //       </Togglable>
+  //       {sortedBlogs.map(blog =>
+  //         <Blog key={blog.id} blog={blog} setBlogs={setBlogs} user={user}/>
+  //       )}
+  //     </div>
+  //   )}
+  // </div>
   )
 }
 
