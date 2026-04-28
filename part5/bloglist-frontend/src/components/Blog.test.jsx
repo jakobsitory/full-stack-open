@@ -13,6 +13,14 @@ vi.mock('../services/blogs', () => ({
   },
 }))
 
+vi.mock('react-router-dom', () => ({
+  default: {
+    useParams: vi.fn(),
+    useNavigate: vi.fn(),
+    Link: vi.fn(),
+  },
+}))
+
 describe('<Blog />', () => {
   const blog = {
     title: 'This is my blog title',
@@ -24,58 +32,139 @@ describe('<Blog />', () => {
     }
   }
 
-  const BlogUser = {
+  const blogCreator = {
     id: '12345'
+  }
+
+  const blogUser = {
+    id: '54321'
   }
 
   const setBlogs = vi.fn()
 
-  beforeEach(() => {
-    render(
-      <Blog blog={blog} user={BlogUser} setBlogs={setBlogs}/>
-    )
+
+  describe('for unauthorized user', () => {
+
+    beforeEach(() => {
+      setBlogs.mockReset()
+      render(
+        <Blog blog={blog} setBlogs={setBlogs}/>
+      )
+    })
+
+    test ('renders all blog information', async () => {
+      const titleElement = await screen.getByText(blog.title, { exact: false })
+      const authorElement = await screen.getByText(blog.author, { exact: false })
+      const urlElement = await screen.getByText(blog.url, { exact: false })
+      const likesElement = await screen.getByText(blog.likes, { exact: false })
+      const likeButton = screen.queryByText('like')
+      const removeButton = screen.queryByText('remove')
+
+      expect(titleElement).toBeVisible()
+      expect(authorElement).toBeVisible()
+      expect(urlElement).toBeVisible()
+      expect(likesElement).toBeVisible()
+      expect(likeButton).not.toBeInTheDocument
+      expect(removeButton).not.toBeInTheDocument
+    })
+
+    test ('does not render like button', async () => {
+      const likeButton = screen.queryByText('like')
+
+      expect(likeButton).not.toBeInTheDocument
+    })
+
+    test ('does not render remove button', async () => {
+      const likeButton = screen.queryByText('like')
+
+      expect(likeButton).not.toBeInTheDocument
+    })
   })
 
-  test ('5.13 displays title and author initially', async () => {
+  describe('for authorized user', () => {
 
+    beforeEach(() => {
+      setBlogs.mockReset()
+      render(
+        <Blog blog={blog} user={blogUser} setBlogs={setBlogs}/>
+      )
+    })
+    test ('renders all blog information', async () => {
+      const titleElement = await screen.getByText(blog.title, { exact: false })
+      const authorElement = await screen.getByText(blog.author, { exact: false })
+      const urlElement = await screen.getByText(blog.url, { exact: false })
+      const likesElement = await screen.getByText(blog.likes, { exact: false })
+      const likeButton = screen.queryByText('like')
+      const removeButton = screen.queryByText('remove')
 
-    const titleElement = await screen.getByText(blog.title, { exact: false })
-    const authorElement = await screen.getByText(blog.author, { exact: false })
+      expect(titleElement).toBeVisible()
+      expect(authorElement).toBeVisible()
+      expect(urlElement).toBeVisible()
+      expect(likesElement).toBeVisible()
+      expect(likeButton).not.toBeInTheDocument
+      expect(removeButton).not.toBeInTheDocument
+    })
 
-    expect(titleElement).toBeVisible()
-    expect(authorElement).toBeVisible()
+    test ('does render a functional like button', async () => {
+      const user = userEvent.setup()
+      const likeButton = screen.queryByText('like')
+
+      expect(likeButton).not.toBeInTheDocument
+      await user.click(likeButton)
+      await user.click(likeButton)
+
+      expect(setBlogs.mock.calls).toHaveLength(2)
+    })
+
+    test ('does not render remove button', async () => {
+      const likeButton = screen.queryByText('like')
+
+      expect(likeButton).not.toBeInTheDocument
+    })
   })
 
-  test ('5.13 does not display url and likes initially', async () => {
+  describe('for creator', () => {
 
-    const urlElement = await screen.getByText(blog.url, { exact: false })
-    const likesElement = await screen.getByText(blog.likes, { exact: false })
+    beforeEach(() => {
+      setBlogs.mockReset()
+      render(
+        <Blog blog={blog} user={blogCreator} setBlogs={setBlogs}/>
+      )
+    })
+    test ('renders all blog information', async () => {
+      const titleElement = await screen.getByText(blog.title, { exact: false })
+      const authorElement = await screen.getByText(blog.author, { exact: false })
+      const urlElement = await screen.getByText(blog.url, { exact: false })
+      const likesElement = await screen.getByText(blog.likes, { exact: false })
+      const likeButton = screen.queryByText('like')
+      const removeButton = screen.queryByText('remove')
 
-    expect(urlElement).not.toBeVisible()
-    expect(likesElement).not.toBeVisible()
+      expect(titleElement).toBeVisible()
+      expect(authorElement).toBeVisible()
+      expect(urlElement).toBeVisible()
+      expect(likesElement).toBeVisible()
+      expect(likeButton).not.toBeInTheDocument
+      expect(removeButton).not.toBeInTheDocument
+    })
+
+    test ('does render a functional like button', async () => {
+      const user = userEvent.setup()
+      const likeButton = screen.queryByText('like')
+
+      expect(likeButton).toBeInTheDocument
+      await user.click(likeButton)
+      await user.click(likeButton)
+
+      expect(setBlogs.mock.calls).toHaveLength(2)
+    })
+
+    test ('does render functional remove button', async () => {
+      const user = userEvent.setup()
+      const removeButton = screen.queryByText('like')
+
+      expect(removeButton).toBeInTheDocument
+      await user.click(removeButton)
+    })
   })
 
-  test ('5.14 displays url and likes after expand button is clicked', async () => {
-
-    const user = userEvent.setup()
-    const button = screen.getByRole('button')
-    await user.click(button)
-
-    const urlElement = await screen.getByText(blog.url, { exact: false })
-    const likesElement = await screen.getByText(blog.likes, { exact: false })
-
-    expect(urlElement).toBeVisible()
-    expect(likesElement).toBeVisible()
-  })
-
-  test('5.14 clicking like button triggers a function', async () => {
-
-    const user = userEvent.setup()
-
-    const likeButtonElement = screen.getByText('like')
-    await user.click(likeButtonElement)
-    await user.click(likeButtonElement)
-
-    expect(setBlogs.mock.calls).toHaveLength(2)
-  })
 })

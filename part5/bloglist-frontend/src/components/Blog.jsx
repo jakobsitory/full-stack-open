@@ -1,8 +1,6 @@
 // import { useState } from 'react'
 import blogService from '../services/blogs'
-import { Link } from 'react-router-dom'
-import { useParams } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 
 
 const blogStyle = {
@@ -23,8 +21,9 @@ const Blog = (props) => {
   // const toggleVisibility = () => {
   //   setVisible(!visible)
   // }
-  const navigate = useNavigate()
-  const id = useParams().id
+  // const navigate = useNavigate()
+  // const id = useParams().id
+  const id = props.blog.id
   const blog = props.blog ? props.blog : props.blogs.find(n => n.id === id)
 
   const increaseLikes = async (event) => {
@@ -62,7 +61,7 @@ const Blog = (props) => {
     await blogService.remove(blogRemove)
     props.setBlogs(prev => prev.filter(blog => blog.id !== blogRemove.id))
 
-    navigate('/')
+    // navigate('/')
   }
 
   return (
