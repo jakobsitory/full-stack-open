@@ -14,11 +14,9 @@ vi.mock('../services/blogs', () => ({
 }))
 
 vi.mock('react-router-dom', () => ({
-  default: {
-    useParams: vi.fn(),
-    useNavigate: vi.fn(),
-    Link: vi.fn(),
-  },
+  useParams: vi.fn(),
+  useNavigate: vi.fn(),
+  Link: vi.fn(),
 }))
 
 describe('<Blog />', () => {

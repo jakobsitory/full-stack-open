@@ -1,6 +1,5 @@
-// import { useState } from 'react'
 import blogService from '../services/blogs'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 
 const blogStyle = {
@@ -15,14 +14,7 @@ const blogStyle = {
 }
 
 const Blog = (props) => {
-  // const [visible, setVisible] = useState(false)
-  // const showWhenVisible = { display: visible ? '' : 'none' }
-
-  // const toggleVisibility = () => {
-  //   setVisible(!visible)
-  // }
-  // const navigate = useNavigate()
-  // const id = useParams().id
+  const navigate = useNavigate()
   const id = props.blog.id
   const blog = props.blog ? props.blog : props.blogs.find(n => n.id === id)
 
@@ -61,7 +53,7 @@ const Blog = (props) => {
     await blogService.remove(blogRemove)
     props.setBlogs(prev => prev.filter(blog => blog.id !== blogRemove.id))
 
-    // navigate('/')
+    navigate('/')
   }
 
   return (
@@ -80,24 +72,6 @@ const Blog = (props) => {
         </div>
       )}
     </div>
-  // <div style={blogStyle} data-testid='blog'>
-  //   {props.blog.title + ' • ' + props.blog.author + ' '}
-  //   <button onClick={toggleVisibility}>
-  //     {visible ? 'hide' : 'show'}
-  //   </button>
-  //   <div style={showWhenVisible}>
-  //     <div>{props.blog.url}</div>
-  //     <div>
-  //       likes: {props.blog.likes}
-  //       <button onClick={increaseLikes}>like</button>
-  //     </div>
-  //     {/* {(props.blog.user.id === props.user.id) && ( */}
-  //       <div>
-  //         <button onClick={removeBlog}>remove</button>
-  //       </div>
-  //     {/* )} */}
-  //   </div>
-  // </div>
   )
 }
 
