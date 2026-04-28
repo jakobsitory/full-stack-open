@@ -37,54 +37,72 @@ const App = () => {
     }
   }, [])
 
+  const match = useMatch('/blogs/:id')
+  const blog = match
+    ? blogs.find(note => note.id === match.params.id)
+    : null
+
   const padding = {
     padding: 5
   }
 
   return (
-
-
-    <Router>
+    // <Router>
+    <div>
       <div>
         <Link style={padding} to="/">blogs</Link>
-        <Link style={padding} to="/create">new blog</Link>
         {user === null &&
           <Link style={padding} to="/login">login</Link>
         }
         {user !== null &&
-          <LogoutButton
-            user={user}
-            setUser={setUser}
-            setNotificationMessage={setNotificationMessage}/>
+          <>
+            <Link style={padding} to="/create">new blog</Link>
+            <LogoutButton
+              style={padding}
+              user={user}
+              setUser={setUser}
+              setNotificationMessage={setNotificationMessage}/>
+          </>
         }
       </div>
 
+      <Notification content={notificationMessage} setNotificationMessage={setNotificationMessage}/>
 
       <Routes>
-        <Route path="/create" element={
+        <Route path='/blogs/:id' element={
+          <Blog blog={blog} setBlogs={setBlogs} user={user}/>
+        } />
+        <Route path='/create' element={
           <CreateBlogForm/>
         } />
-        <Route path="/login" element={
+        <Route path='/login' element={
           <LoginForm
             user={user}
             setUser={setUser}
             setNotificationMessage={setNotificationMessage}
           />
         } />
-        <Route path="/" element={
+        <Route path='/' element={
           <div>
             <h2>blogs</h2>
             {/* <Togglable buttonLabel={'create new blog'}>
               <CreateBlogForm setBlogs={setBlogs} setNotificationMessage={setNotificationMessage}/>
             </Togglable> */}
-            {sortedBlogs.map(blog =>
-              <Blog key={blog.id} blog={blog} setBlogs={setBlogs} user={user}/>
-            )}
+            <ul>
+              {sortedBlogs.map(blog =>
+                <li>
+                  <Link to={`/blogs/${blog.id}`}>{blog.title} by {blog.author}</Link>
+                </li>
+                // <Blog key={blog.id} blog={blog} setBlogs={setBlogs} user={user}/>
+              )}
+            </ul>
           </div>
         } />
       </Routes>
       {/* <Footer /> */}
-    </Router>
+    </div>
+
+    // </Router>
     // <div>
     //   <Notification content={notificationMessage} setNotificationMessage={setNotificationMessage}/>
     //   {user === null && (
