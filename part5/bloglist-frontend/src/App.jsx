@@ -47,6 +47,7 @@ const App = () => {
     <Router>
       <div>
         <Link style={padding} to="/">blogs</Link>
+        <Link style={padding} to="/create">new blog</Link>
         {user === null &&
           <Link style={padding} to="/login">login</Link>
         }
@@ -60,6 +61,9 @@ const App = () => {
 
 
       <Routes>
+        <Route path="/create" element={
+          <CreateBlogForm/>
+        } />
         <Route path="/login" element={
           <LoginForm
             user={user}
