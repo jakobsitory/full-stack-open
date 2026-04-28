@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
+import { useNavigate } from 'react-router-dom'
 
 const CreateBlogForm = ({ setBlogs, setNotificationMessage }) => {
+  const navigate = useNavigate()
   const [newBlog, setNewBlog] = useState({
     title: '',
     author: '',
@@ -30,6 +32,7 @@ const CreateBlogForm = ({ setBlogs, setNotificationMessage }) => {
         type: 'success',
         message: (`Added new blog '${newBlog.title}' from '${newBlog.author}'`) })
       )
+      navigate('/')
     } catch {
       setNotificationMessage(prev => ({ ...prev,
         show: true,

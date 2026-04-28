@@ -15,6 +15,12 @@ vi.mock('../services/blogs', () => ({
   },
 }))
 
+vi.mock('react-router-dom', () => ({
+  useParams: vi.fn(),
+  useNavigate: vi.fn(),
+  Link: vi.fn(),
+}))
+
 describe('<CreateBlogForm />', () => {
 
   const setBlogs = vi.fn()
@@ -67,6 +73,6 @@ describe('<CreateBlogForm />', () => {
     })
 
     expect(setBlogs.mock.calls).toHaveLength(1)
-    expect(setNotificationMessage.mock.calls).toHaveLength(1)
+    expect(setNotificationMessage.mock.calls).toHaveLength(2)
   })
 })

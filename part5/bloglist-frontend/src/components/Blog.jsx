@@ -71,6 +71,9 @@ const Blog = (props) => {
           <button onClick={increaseLikes}>like</button>
         )}
       </div>
+      <div>
+        Added by {blog.user.name}
+      </div>
       {(props.user && blog.user.id === props.user.id) && (
         <div>
           <button onClick={removeBlog}>remove</button>

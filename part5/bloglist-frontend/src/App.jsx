@@ -78,7 +78,10 @@ const App = () => {
           />
         } />
         <Route path='/create' element={
-          <CreateBlogForm/>
+          <CreateBlogForm
+            setBlogs={setBlogs}
+            setNotificationMessage={setNotificationMessage}
+          />
         } />
         <Route path='/login' element={
           <LoginForm
