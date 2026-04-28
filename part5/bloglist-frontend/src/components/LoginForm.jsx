@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
+import { useNavigate } from 'react-router-dom'
 
 const LoginForm = ({ user, setUser, setNotificationMessage }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const navigate = useNavigate()
 
   const handleLogin = async event => {
     event.preventDefault()
@@ -24,6 +26,8 @@ const LoginForm = ({ user, setUser, setNotificationMessage }) => {
         type: 'success',
         message: `${user.username} successfully logged in` })
       )
+
+      navigate('/')
     } catch {
       setNotificationMessage(prev => ({ ...prev.notificationMessage,
         show: true,

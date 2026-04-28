@@ -68,11 +68,11 @@ const Blog = (props) => {
           likes: {props.blog.likes}
           <button onClick={increaseLikes}>like</button>
         </div>
-        {(props.blog.user.id === props.user.id) && (
+        {/* {(props.blog.user.id === props.user.id) && ( */}
           <div>
             <button onClick={removeBlog}>remove</button>
           </div>
-        )}
+        {/* )} */}
       </div>
     </div>
   )
