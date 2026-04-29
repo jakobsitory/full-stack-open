@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Container } from '@mui/material'
+import { Container, AppBar, Toolbar, Button, Box } from '@mui/material'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import LogoutButton from './components/LogoutButton'
@@ -43,28 +43,27 @@ const App = () => {
     ? blogs.find(note => note.id === match.params.id)
     : null
 
-  const padding = {
-    padding: 5
-  }
+  const style = { '&:hover': { bgcolor: 'rgba(255,255,255,0.3)' } }
 
   return (
     <Container>
-      <div>
-        <Link style={padding} to="/">blogs</Link>
-        {user === null &&
-          <Link style={padding} to="/login">login</Link>
-        }
-        {user !== null &&
-          <>
-            <Link style={padding} to="/create">new blog</Link>
-            <LogoutButton
-              style={padding}
-              user={user}
-              setUser={setUser}
-              setNotificationMessage={setNotificationMessage}/>
-          </>
-        }
-      </div>
+      <AppBar position="static" disableElevation>
+        <Toolbar>
+          <Button color='inherit' component={Link} to="/" sx={style}>blogs</Button>
+          {user === null &&
+            <Button color='inherit' component={Link} to="/login" sx={style}>login</Button>
+          }
+          {user !== null &&
+            <>
+              <Button color='inherit' component={Link} to="/create" sx={style}>new blog</Button>
+              <LogoutButton
+                user={user}
+                setUser={setUser}
+                setNotificationMessage={setNotificationMessage}/>
+            </>
+          }
+        </Toolbar>
+      </AppBar>
 
       <Notification content={notificationMessage} setNotificationMessage={setNotificationMessage}/>
 
@@ -92,7 +91,7 @@ const App = () => {
           />
         } />
         <Route path='/' element={
-          <div>
+          <Box>
             <h2>Blogs</h2>
             <ul>
               {sortedBlogs.map(blog =>
@@ -101,7 +100,7 @@ const App = () => {
                 </li>
               )}
             </ul>
-          </div>
+          </Box>
         } />
       </Routes>
     </Container>

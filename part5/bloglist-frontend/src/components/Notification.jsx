@@ -9,7 +9,7 @@ const Notification = ({ content, setNotificationMessage }) => {
   setTimeout(() => { setNotificationMessage({ show: false }) }, 4000)
 
   return (
-    <Alert severity={content.type}>
+    <Alert style={{ marginTop: 10, marginBottom: 10 }} severity={content.type}>
       {content.message}
     </Alert>
   )

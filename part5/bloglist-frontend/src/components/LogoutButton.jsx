@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { Button } from '@mui/material'
 
 const LogoutButton = ({ user, setUser, setNotificationMessage }) => {
   const navigate = useNavigate()
@@ -21,6 +22,7 @@ const LogoutButton = ({ user, setUser, setNotificationMessage }) => {
         type: 'success',
         message: `${username} successfully logged out` })
       )
+
       navigate('/')
     } catch {
       setNotificationMessage(prev => ({ ...prev.notificationMessage,
@@ -32,7 +34,15 @@ const LogoutButton = ({ user, setUser, setNotificationMessage }) => {
   }
 
   return (
-    <button disabled={!user} onClick={handleLogout}>logout</button>
+    <Button
+      variant="contained"
+      color='inherit'
+      disabled={!user}
+      onClick={handleLogout}
+      disableElevation
+      color="error">
+        logout
+    </Button>
   )
 }
 
