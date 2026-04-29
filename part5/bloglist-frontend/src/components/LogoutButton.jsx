@@ -35,12 +35,12 @@ const LogoutButton = ({ user, setUser, setNotificationMessage }) => {
 
   return (
     <Button
-      variant="contained"
+      variant='contained'
       color='inherit'
       disabled={!user}
       onClick={handleLogout}
       disableElevation
-      color="error">
+      color='error'>
         logout
     </Button>
   )
