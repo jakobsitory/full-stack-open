@@ -2,7 +2,7 @@ import { useState } from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 import { useNavigate } from 'react-router-dom'
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Box } from '@mui/material'
 
 const LoginForm = ({ user, setUser, setNotificationMessage }) => {
   const [username, setUsername] = useState('')
@@ -41,27 +41,29 @@ const LoginForm = ({ user, setUser, setNotificationMessage }) => {
 
   if (user === null)
     return (
-      <div>
+      <Box
+        component="form"
+        sx={{ '& .MuiTextField-root': { gap: 4, m: 1, width: '25ch' } }}
+        onSubmit={handleLogin}
+      >
         <h2>log in to application</h2>
-        <form onSubmit={handleLogin}>
-          <div>
-            <TextField
-              label={'username'}
-              type="text"
-              value={username}
-              onChange={({ target }) => setUsername(target.value)} />
-          </div>
-          <div>
-            <TextField
-              label={'password'}
-              type="password"
-              value={password}
-              onChange={({ target }) => setPassword(target.value)} />
-          </div>
-          {/* <button type="submit">login</button> */}
-          <Button variant="contained" type="submit">login</Button>
-        </form>
-      </div>
+        <div>
+          <TextField
+            label={'username'}
+            type="text"
+            value={username}
+            onChange={({ target }) => setUsername(target.value)} />
+        </div>
+        <div>
+          <TextField
+            label={'password'}
+            type="password"
+            value={password}
+            onChange={({ target }) => setPassword(target.value)} />
+        </div>
+        {/* <button type="submit">login</button> */}
+        <Button variant="contained" type="submit">login</Button>
+      </Box>
     )
   return (
     <div>

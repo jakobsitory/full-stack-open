@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 import { useNavigate } from 'react-router-dom'
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Box } from '@mui/material'
 
 const CreateBlogForm = ({ setBlogs, setNotificationMessage }) => {
   const navigate = useNavigate()
@@ -44,36 +44,38 @@ const CreateBlogForm = ({ setBlogs, setNotificationMessage }) => {
   }
 
   return (
-    <div>
+    <Box
+      component="form"
+      sx={{ '& .MuiTextField-root': { gap: 4, m: 1, width: '25ch' } }}
+      onSubmit={handleCreateBlog}
+    >
       <h2>create new</h2>
-      <form onSubmit={handleCreateBlog}>
-        <div>
-          <TextField
-            label={'title'}
-            type="text"
-            value={newBlog.title}
-            onChange={handleChange('title')}
-          />
-        </div>
-        <div>
-          <TextField
-            label={'author'}
-            type="text"
-            value={newBlog.author}
-            onChange={handleChange('author')}
-          />
-        </div>
-        <div>
-          <TextField
-            label={'url'}
-            type="text"
-            value={newBlog.url}
-            onChange={handleChange('url')}
-          />
-        </div>
-        <Button variant="contained" disabled={!FormFilled} type="submit">create</Button>
-      </form>
-    </div>
+      <div>
+        <TextField
+          label={'title'}
+          type="text"
+          value={newBlog.title}
+          onChange={handleChange('title')}
+        />
+      </div>
+      <div>
+        <TextField
+          label={'author'}
+          type="text"
+          value={newBlog.author}
+          onChange={handleChange('author')}
+        />
+      </div>
+      <div>
+        <TextField
+          label={'url'}
+          type="text"
+          value={newBlog.url}
+          onChange={handleChange('url')}
+        />
+      </div>
+      <Button variant="contained" disabled={!FormFilled} type="submit">create</Button>
+    </Box>
   )
 }
 
