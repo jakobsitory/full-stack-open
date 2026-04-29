@@ -1,5 +1,6 @@
+import * as React from 'react';
 import { useState, useEffect } from 'react'
-import { Container, AppBar, Toolbar, Button, Box } from '@mui/material'
+import { Container, AppBar, Toolbar, Button, Box, Typography, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import LogoutButton from './components/LogoutButton'
@@ -47,8 +48,11 @@ const App = () => {
 
   return (
     <Container>
-      <AppBar position="static" disableElevation>
+      <AppBar position="static">
         <Toolbar>
+          <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
+            My BlogList App
+          </Typography>
           <Button color='inherit' component={Link} to="/" sx={style}>blogs</Button>
           {user === null &&
             <Button color='inherit' component={Link} to="/login" sx={style}>login</Button>
@@ -92,14 +96,18 @@ const App = () => {
         } />
         <Route path='/' element={
           <Box>
-            <h2>Blogs</h2>
-            <ul>
+            <Typography sx={{ m: 1 }} variant="h4" component="h2">
+              Blogs
+            </Typography>
+            <List>
               {sortedBlogs.map(blog =>
-                <li key={blog.id}>
-                  <Link to={`/blogs/${blog.id}`}>{blog.title} by {blog.author}</Link>
-                </li>
+                <ListItemButton key={blog.id} component={Link} to={`/blogs/${blog.id}`}>
+                  <ListItem disablePadding>
+                    <ListItemText primary={blog.title} secondary={blog.author} />
+                  </ListItem>
+                </ListItemButton>
               )}
-            </ul>
+            </List>
           </Box>
         } />
       </Routes>

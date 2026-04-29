@@ -2,7 +2,7 @@ import { useState } from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 import { useNavigate } from 'react-router-dom'
-import { TextField, Button, Box } from '@mui/material'
+import { TextField, Button, Box, Typography } from '@mui/material'
 
 const LoginForm = ({ user, setUser, setNotificationMessage }) => {
   const [username, setUsername] = useState('')
@@ -39,18 +39,24 @@ const LoginForm = ({ user, setUser, setNotificationMessage }) => {
   }
 
 
-  if (user === null)
-    return (
+  if (user)
+    navigate('/')
+
+  return (
+    <Box>
+      <Typography sx={{ m: 1 }} variant="h4" component="h2">
+        Log in to application
+      </Typography>
       <Box
         component="form"
-        sx={{ '& .MuiTextField-root': { gap: 4, m: 1, width: '25ch' } }}
+        sx={{ '& .MuiTextField-root': { m: 1, width: '30ch' } }}
         onSubmit={handleLogin}
       >
-        <h2>log in to application</h2>
         <div>
           <TextField
             label={'username'}
             type="text"
+            size="small"
             value={username}
             onChange={({ target }) => setUsername(target.value)} />
         </div>
@@ -58,18 +64,13 @@ const LoginForm = ({ user, setUser, setNotificationMessage }) => {
           <TextField
             label={'password'}
             type="password"
+            size="small"
             value={password}
             onChange={({ target }) => setPassword(target.value)} />
         </div>
-        {/* <button type="submit">login</button> */}
-        <Button variant="contained" type="submit">login</Button>
+        <Button sx={{ m: 1 }} variant="contained" type="submit" size="medium">login</Button>
       </Box>
-    )
-  return (
-    <div>
-      {user.name} logged in
-      < Button variant="contained" type="submit">login</Button>
-    </div>
+    </Box>
   )
 }
 
