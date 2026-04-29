@@ -64,7 +64,7 @@ const Blog = (props) => {
             {blog.url}
           </Link>
           <Typography sx={{ color: 'text.secondary', mt: 1.5 }}>
-            added by {blog.user.name}
+            Added by {blog.user.name}
           </Typography>
         </CardContent>
         <CardActions sx={{ mx: 1 }}>
@@ -75,7 +75,7 @@ const Blog = (props) => {
             && <Button variant='outlined' onClick={increaseLikes}>like</Button>
           }
           {(props.user && blog.user.id === props.user.id)
-            && <Button variant='outlined' color='error' onClick={removeBlog}>Delete</Button>
+            && <Button variant='outlined' color='error' onClick={removeBlog}>remove</Button>
           }
         </CardActions>
       </Card>

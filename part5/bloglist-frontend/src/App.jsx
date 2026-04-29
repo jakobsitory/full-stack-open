@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useState, useEffect } from 'react'
 import { Container, AppBar, Toolbar, Button, Box, Typography, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
 import Blog from './components/Blog'
