@@ -66,7 +66,7 @@ const LoginForm = ({ user, setUser, setNotificationMessage }) => {
   return (
     <div>
       {user.name} logged in
-      <button>logout</button>
+      < Button variant="contained" type="submit">login</Button>
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 import { useNavigate } from 'react-router-dom'
+import { TextField, Button } from '@mui/material'
 
 const CreateBlogForm = ({ setBlogs, setNotificationMessage }) => {
   const navigate = useNavigate()
@@ -47,36 +48,30 @@ const CreateBlogForm = ({ setBlogs, setNotificationMessage }) => {
       <h2>create new</h2>
       <form onSubmit={handleCreateBlog}>
         <div>
-          <label>
-            title
-            <input
-              type="text"
-              value={newBlog.title}
-              onChange={handleChange('title')}
-            />
-          </label>
+          <TextField
+            label={'title'}
+            type="text"
+            value={newBlog.title}
+            onChange={handleChange('title')}
+          />
         </div>
         <div>
-          <label>
-            author
-            <input
-              type="text"
-              value={newBlog.author}
-              onChange={handleChange('author')}
-            />
-          </label>
+          <TextField
+            label={'author'}
+            type="text"
+            value={newBlog.author}
+            onChange={handleChange('author')}
+          />
         </div>
         <div>
-          <label>
-            url
-            <input
-              type="text"
-              value={newBlog.url}
-              onChange={handleChange('url')}
-            />
-          </label>
+          <TextField
+            label={'url'}
+            type="text"
+            value={newBlog.url}
+            onChange={handleChange('url')}
+          />
         </div>
-        <button disabled={!FormFilled} type="submit">create</button>
+        <Button variant="contained" disabled={!FormFilled} type="submit">create</Button>
       </form>
     </div>
   )
