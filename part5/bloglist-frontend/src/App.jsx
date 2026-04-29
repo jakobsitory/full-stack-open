@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Container } from '@mui/material'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import LogoutButton from './components/LogoutButton'
@@ -47,7 +48,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <Container>
       <div>
         <Link style={padding} to="/">blogs</Link>
         {user === null &&
@@ -103,7 +104,7 @@ const App = () => {
           </div>
         } />
       </Routes>
-    </div>
+    </Container>
   )
 }
 
