@@ -64,7 +64,13 @@ const Blog = (props) => {
   return (
     <div style={blogStyle} data-testid='blog'>
       <h1>{blog.author}: {blog.title}</h1>
-      <a href={blog.url}>{blog.url}</a>
+      <a
+        href={blog.url}
+        target='_blank'
+        rel='noreferrer'
+      >
+        {blog.url}
+      </a>
       <div>
         likes: {blog.likes}
         {props.user && (
